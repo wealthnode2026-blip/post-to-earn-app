@@ -72,7 +72,7 @@ export function DepositForm() {
         <button
           disabled={isPending}
           type="submit"
-          className="w-full rounded-full bg-accent py-2.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-40"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-40"
         >
           Invia per verifica
         </button>

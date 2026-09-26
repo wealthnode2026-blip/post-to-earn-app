@@ -1,8 +1,9 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { createClient } from "@/utils/supabase/server";
 import { NotificationBell } from "./notification-bell";
 
-type IconProps = { className?: string };
+type IconProps = { className?: string; style?: CSSProperties };
 
 function HomeIcon({ className }: IconProps) {
   return (

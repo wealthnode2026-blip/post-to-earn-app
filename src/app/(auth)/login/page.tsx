@@ -32,7 +32,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={pending}
-          className="w-full rounded-full bg-accent py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-40"
         >
           {pending ? "Accesso…" : "Accedi"}
         </button>

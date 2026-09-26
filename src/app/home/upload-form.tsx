@@ -43,7 +43,7 @@ export function UploadForm() {
       <button
         type="submit"
         disabled={pending || !preview}
-        className="w-full rounded-full bg-accent py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+        className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-40"
       >
         {pending ? "Invio in corso…" : "Pubblica lo scatto di oggi"}
       </button>
