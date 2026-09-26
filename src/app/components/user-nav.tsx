@@ -5,7 +5,7 @@ import { NotificationBell } from "./notification-bell";
 export async function UserNav({
   active,
 }: {
-  active: "home" | "arena" | "hall-of-fame" | "deposit" | "withdraw" | "support" | "admin";
+  active: "home" | "arena" | "hall-of-fame" | "deposit" | "withdraw" | "market" | "support" | "admin";
 }) {
   const items = [
     { href: "/home", key: "home" as const, label: "Home" },
@@ -14,6 +14,7 @@ export async function UserNav({
     { href: "/support", key: "support" as const, label: "Ticket" },
     { href: "/deposit", key: "deposit" as const, label: "Depositi" },
     { href: "/withdraw", key: "withdraw" as const, label: "Prelievi" },
+    { href: "/market", key: "market" as const, label: "Market" },
   ];
 
   const supabase = await createClient();

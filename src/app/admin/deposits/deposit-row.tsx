@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { approveDeposit, rejectDeposit } from "./actions";
 
 type Tx = {
@@ -15,20 +15,22 @@ export function DepositRow({ tx }: { tx: Tx }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <tr className="border-b border-line last:border-0">
-      <td className="px-4 py-3 text-ink">{tx.username}</td>
-      <td className="px-4 py-3 text-ink">{tx.amount_usdt} USDT</td>
-      <td className="px-4 py-3">
-        <a
-          href={`https://tronscan.org/#/transaction/${tx.txid}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-xs text-accent underline"
-        >
-          {tx.txid.slice(0, 14)}...
-        </a>
-      </td>
-      <td className="px-4 py-3 text-right space-x-2">
+    <div className="rounded-lg border border-line bg-surface p-4">
+      <div className="flex items-center justify-between gap-3">
+        <p className="truncate font-medium text-ink">{tx.username}</p>
+        <p className="shrink-0 font-mono text-ink">{tx.amount_usdt} USDT</p>
+      </div>
+
+      <a
+        href={`https://tronscan.org/#/transaction/${tx.txid}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 block truncate font-mono text-xs text-accent underline"
+      >
+        {tx.txid.slice(0, 14)}...
+      </a>
+
+      <div className="mt-3 flex justify-end gap-2">
         <button
           disabled={isPending}
           onClick={() => startTransition(() => approveDeposit(tx.id))}
@@ -46,7 +48,7 @@ export function DepositRow({ tx }: { tx: Tx }) {
         >
           Rifiuta
         </button>
-      </td>
-     </tr>
+      </div>
+    </div>
   );
 }

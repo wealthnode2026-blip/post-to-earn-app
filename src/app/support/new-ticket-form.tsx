@@ -9,7 +9,7 @@ export function NewTicketForm() {
   return (
     <form
       action={(formData) => startTransition(() => createTicket(formData))}
-      className="space-y-3 rounded-2xl border border-line bg-surface p-5"
+      className="space-y-3 rounded-lg border border-line bg-surface p-5"
     >
       <div>
         <label className="block text-xs text-ink-soft">Oggetto</label>

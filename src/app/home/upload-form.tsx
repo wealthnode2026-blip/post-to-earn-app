@@ -13,7 +13,7 @@ export function UploadForm() {
     <form action={formAction} className="space-y-6">
       <label
         htmlFor="photo"
-        className="group flex aspect-[4/5] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-line bg-surface transition-colors hover:border-accent"
+        className="group flex aspect-[4/5] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border border-dashed border-line bg-surface transition-all hover:border-accent/50 hover:shadow-hover"
       >
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -38,7 +38,7 @@ export function UploadForm() {
         />
       </label>
 
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-sm text-red-400">{state.error}</p>}
 
       <button
         type="submit"

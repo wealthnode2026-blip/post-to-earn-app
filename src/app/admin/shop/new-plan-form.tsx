@@ -13,7 +13,7 @@ export function NewPlanForm() {
       action={(formData) => {
         startTransition(() => createCameraPlan(formData).then(() => formRef.current?.reset()));
       }}
-      className="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-line bg-surface p-4"
+      className="mt-6 flex flex-wrap items-end gap-3 rounded-lg border border-line bg-surface p-4"
     >
       <div>
         <label className="block text-xs text-ink-soft">Nome</label>

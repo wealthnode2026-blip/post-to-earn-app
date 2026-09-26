@@ -64,7 +64,7 @@ export async function signup(
     return { error: error.message };
   }
 
-  redirect("/feed");
+  redirect("/home");
 }
 
 export async function login(
@@ -85,5 +85,5 @@ export async function login(
     return { error: "Email o password non corretti." };
   }
 
-  redirect("/feed");
+  redirect("/home");
 }

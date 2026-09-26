@@ -18,25 +18,38 @@ export function UserRow({ user }: { user: UserProfile }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <tr className="border-b border-line last:border-0">
-      <td className="px-4 py-3 text-ink">{user.username ?? "—"}</td>
-      <td className="px-4 py-3 capitalize text-ink-soft">
-        {user.plan} · {user.multiplier}x
-      </td>
-      <td className="px-4 py-3 text-ink-soft">{user.credit_balance}</td>
-      <td className="px-4 py-3 text-ink-soft">{user.money_balance}</td>
-      <td className="px-4 py-3">
+    <div className="rounded-lg border border-line bg-surface p-4">
+      <div className="flex items-center justify-between gap-3">
+        <p className="truncate font-medium text-ink">{user.username ?? "—"}</p>
         {user.is_banned ? (
-          <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600">
+          <span className="shrink-0 rounded-full bg-red-950 px-2.5 py-1 text-xs font-medium text-red-300">
             Bannato
           </span>
         ) : (
-          <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600">
+          <span className="shrink-0 rounded-full bg-neon-soft px-2.5 py-1 text-xs font-medium text-neon-ink">
             Attivo
           </span>
         )}
-      </td>
-      <td className="px-4 py-3 text-right">
+      </div>
+
+      <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-4">
+        <div>
+          <span className="block text-xs text-ink-soft">Piano</span>
+          <span className="capitalize text-ink">
+            {user.plan} · {user.multiplier}x
+          </span>
+        </div>
+        <div>
+          <span className="block text-xs text-ink-soft">Crediti</span>
+          <span className="font-mono text-ink">{user.credit_balance}</span>
+        </div>
+        <div>
+          <span className="block text-xs text-ink-soft">Saldo (USDT)</span>
+          <span className="font-mono text-ink">{user.money_balance}</span>
+        </div>
+      </div>
+
+      <div className="mt-3 flex justify-end">
         {user.is_admin ? (
           <span className="text-xs text-ink-soft">Admin</span>
         ) : (
@@ -52,7 +65,7 @@ export function UserRow({ user }: { user: UserProfile }) {
             {user.is_banned ? "Riattiva" : "Banna"}
           </button>
         )}
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }

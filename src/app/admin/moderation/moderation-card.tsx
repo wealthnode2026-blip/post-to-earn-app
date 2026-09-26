@@ -15,7 +15,7 @@ export function ModerationCard({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-surface">
+    <div className="overflow-hidden rounded-lg border border-line bg-surface">
       {imageUrl && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={imageUrl} alt={`Scatto di ${username}`} className="aspect-[4/5] w-full object-cover" />

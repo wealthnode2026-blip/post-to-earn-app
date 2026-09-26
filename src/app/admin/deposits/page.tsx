@@ -29,22 +29,10 @@ export default async function DepositsPage() {
       </p>
 
       {items.length > 0 && (
-        <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-surface">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-line bg-pearl/50 text-ink-soft">
-              <tr>
-                <th className="px-4 py-3 font-medium">Utente</th>
-                <th className="px-4 py-3 font-medium">Importo</th>
-                <th className="px-4 py-3 font-medium">TXID (Tronscan)</th>
-                <th className="px-4 py-3 font-medium text-right">Azioni</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((t) => (
-                <DepositRow key={t.id} tx={t} />
-              ))}
-            </tbody>
-          </table>
+        <div className="mt-8 space-y-3">
+          {items.map((t) => (
+            <DepositRow key={t.id} tx={t} />
+          ))}
         </div>
       )}
     </div>

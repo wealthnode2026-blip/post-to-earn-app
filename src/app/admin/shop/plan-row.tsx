@@ -30,54 +30,59 @@ export function PlanRow({ plan }: { plan: CameraPlan }) {
   }
 
   return (
-    <tr className="border-b border-line last:border-0">
-      <td className="px-4 py-3">
+    <div className="rounded-lg border border-line bg-surface p-4">
+      <div className="flex items-center justify-between gap-3">
         <input
           value={name}
           onChange={(e) => {
             setName(e.target.value);
             setDirty(true);
           }}
-          className="w-full rounded-md border border-line bg-transparent px-2 py-1 text-ink"
+          className="w-full min-w-0 rounded-md border border-line bg-transparent px-2 py-1 text-ink"
         />
-      </td>
-      <td className="px-4 py-3 capitalize text-ink-soft">{plan.plan_type}</td>
-      <td className="px-4 py-3">
-        <input
-          type="number"
-          step="0.1"
-          value={multiplier}
-          onChange={(e) => {
-            setMultiplier(e.target.value);
-            setDirty(true);
-          }}
-          className="w-20 rounded-md border border-line bg-transparent px-2 py-1 text-ink"
-        />
-      </td>
-      <td className="px-4 py-3">
-        <input
-          type="number"
-          step="0.01"
-          value={price}
-          onChange={(e) => {
-            setPrice(e.target.value);
-            setDirty(true);
-          }}
-          className="w-24 rounded-md border border-line bg-transparent px-2 py-1 text-ink"
-        />
-      </td>
-      <td className="px-4 py-3">
         <button
           disabled={isPending}
           onClick={() => startTransition(() => toggleCameraPlanActive(plan.id, !plan.active))}
-          className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-            plan.active ? "bg-green-50 text-green-600" : "bg-pearl text-ink-soft"
+          className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${
+            plan.active ? "bg-neon-soft text-neon-ink" : "bg-pearl text-ink-soft"
           }`}
         >
           {plan.active ? "Attiva" : "Disattivata"}
         </button>
-      </td>
-      <td className="px-4 py-3 text-right space-x-2">
+      </div>
+
+      <p className="mt-2 text-xs capitalize text-ink-soft">{plan.plan_type}</p>
+
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <label className="block">
+          <span className="block text-xs text-ink-soft">Moltiplicatore</span>
+          <input
+            type="number"
+            step="0.1"
+            value={multiplier}
+            onChange={(e) => {
+              setMultiplier(e.target.value);
+              setDirty(true);
+            }}
+            className="mt-1 w-full rounded-md border border-line bg-transparent px-2 py-1 text-ink"
+          />
+        </label>
+        <label className="block">
+          <span className="block text-xs text-ink-soft">Prezzo (USDT)</span>
+          <input
+            type="number"
+            step="0.01"
+            value={price}
+            onChange={(e) => {
+              setPrice(e.target.value);
+              setDirty(true);
+            }}
+            className="mt-1 w-full rounded-md border border-line bg-transparent px-2 py-1 text-ink"
+          />
+        </label>
+      </div>
+
+      <div className="mt-3 flex justify-end gap-2">
         {dirty && (
           <button
             disabled={isPending}
@@ -98,7 +103,7 @@ export function PlanRow({ plan }: { plan: CameraPlan }) {
         >
           Elimina
         </button>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }

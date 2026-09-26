@@ -3,8 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
-const BASE_DAILY_CREDITS = 10; // credito base al giorno, moltiplicato per il piano dell'utente
-
 async function requireAdmin() {
   const supabase = await createClient();
   const {
@@ -28,7 +26,7 @@ export async function approvePost(postId: string) {
 
   const { data: post } = await supabase
     .from("posts")
-    .select("id, user_id, status")
+    .select("id, user_id, status, is_trial")
     .eq("id", postId)
     .single();
 
@@ -36,12 +34,17 @@ export async function approvePost(postId: string) {
 
   const { data: authorProfile } = await supabase
     .from("profiles")
-    .select("multiplier, credit_balance")
+    .select("plan, credit_balance, bonus_balance")
     .eq("id", post.user_id)
     .single();
 
-  const multiplier = authorProfile?.multiplier ?? 1;
-  const creditsAwarded = BASE_DAILY_CREDITS * multiplier;
+  const { data: cameraPlan } = await supabase
+    .from("camera_plans")
+    .select("credits_per_photo")
+    .eq("plan_type", authorProfile?.plan ?? "free")
+    .single();
+
+  const creditsAwarded = Number(cameraPlan?.credits_per_photo ?? 0.5);
 
   await supabase
     .from("posts")
@@ -53,15 +56,24 @@ export async function approvePost(postId: string) {
     })
     .eq("id", postId);
 
-  await supabase
-    .from("profiles")
-    .update({
-      credit_balance: (authorProfile?.credit_balance ?? 0) + creditsAwarded,
-    })
-    .eq("id", post.user_id);
+  if (post.is_trial) {
+    await supabase
+      .from("profiles")
+      .update({
+        bonus_balance: Number(authorProfile?.bonus_balance ?? 0) + creditsAwarded,
+      })
+      .eq("id", post.user_id);
+  } else {
+    await supabase
+      .from("profiles")
+      .update({
+        credit_balance: Number(authorProfile?.credit_balance ?? 0) + creditsAwarded,
+      })
+      .eq("id", post.user_id);
+  }
 
   revalidatePath("/admin/moderation");
-  revalidatePath("/feed");
+  revalidatePath("/home");
 }
 
 export async function rejectPost(postId: string) {
@@ -88,5 +100,5 @@ export async function rejectPost(postId: string) {
   await supabase.storage.from("daily-photos").remove([post.image_path]);
 
   revalidatePath("/admin/moderation");
-  revalidatePath("/feed");
+  revalidatePath("/home");
 }

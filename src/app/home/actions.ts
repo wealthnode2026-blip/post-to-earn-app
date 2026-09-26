@@ -78,6 +78,6 @@ export async function uploadDailyPhoto(
     return { error: "Non è stato possibile registrare il post. Riprova." };
   }
 
-  revalidatePath("/feed");
+  revalidatePath("/home");
   return { error: null };
 }

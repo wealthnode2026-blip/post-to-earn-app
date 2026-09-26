@@ -46,7 +46,7 @@ export default async function AdminSupportPage() {
             <span
               className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                 t.status === "open"
-                  ? "bg-red-50 text-red-600"
+                  ? "bg-red-50 text-red-400"
                   : t.status === "answered"
                   ? "bg-green-50 text-green-600"
                   : "bg-pearl text-ink-soft"

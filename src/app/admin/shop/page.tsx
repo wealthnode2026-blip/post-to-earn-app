@@ -17,24 +17,10 @@ export default async function ShopPage() {
         Configura nome, moltiplicatore e prezzo delle fotocamere disponibili.
       </p>
 
-      <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-surface">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-line bg-pearl/50 text-ink-soft">
-            <tr>
-              <th className="px-4 py-3 font-medium">Nome</th>
-              <th className="px-4 py-3 font-medium">Piano</th>
-              <th className="px-4 py-3 font-medium">Moltiplicatore</th>
-              <th className="px-4 py-3 font-medium">Prezzo (USDT)</th>
-              <th className="px-4 py-3 font-medium">Stato</th>
-              <th className="px-4 py-3 font-medium text-right">Azioni</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(plans ?? []).map((p) => (
-              <PlanRow key={p.id} plan={p} />
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-8 space-y-3">
+        {(plans ?? []).map((p) => (
+          <PlanRow key={p.id} plan={p} />
+        ))}
       </div>
 
       <NewPlanForm />

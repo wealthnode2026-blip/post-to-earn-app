@@ -11,7 +11,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </p>
         </div>
 
-        <div className="rounded-2xl border border-line bg-surface p-8 shadow-[0_1px_2px_rgba(28,35,51,0.04)]">
+        <div className="rounded-lg border border-line bg-surface p-8 shadow-card">
           {children}
         </div>
       </div>

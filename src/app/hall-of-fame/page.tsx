@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { UserNav } from "../components/user-nav";
+import { PhotoCard } from "../components/photo-card";
 
 export default async function HallOfFamePage() {
   const supabase = await createClient();
@@ -45,18 +46,20 @@ export default async function HallOfFamePage() {
         {items.length > 0 && (
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
             {items.map((item) => (
-              <div key={item.id} className="overflow-hidden rounded-2xl border border-black/5 bg-white">
-                {item.imageUrl && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={item.imageUrl} alt="" className="aspect-square w-full object-cover" />
-                )}
-                <div className="p-4">
-                  <p className="text-sm font-medium text-ink">{item.username}</p>
-                  <p className="text-xs text-ink-soft">
-                    Settimana del {item.weekStart} · {item.votes} voti
-                  </p>
-                </div>
-              </div>
+              <PhotoCard
+                key={item.id}
+                imageUrl={item.imageUrl}
+                aspect="aspect-square"
+                gold
+                footer={
+                  <>
+                    <p className="text-sm font-medium text-ink">{item.username}</p>
+                    <p className="text-xs text-ink-soft">
+                      Settimana del {item.weekStart} · {item.votes} voti
+                    </p>
+                  </>
+                }
+              />
             ))}
           </div>
         )}
