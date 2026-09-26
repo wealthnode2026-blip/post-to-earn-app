@@ -4,6 +4,7 @@ import { startOfTodayUTC } from "@/utils/date";
 import { UploadForm } from "./upload-form";
 import { UserNav } from "../components/user-nav";
 import { PhotoCard } from "../components/photo-card";
+import { InstallAppButton } from "../components/install-app-button";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "In attesa di moderazione",
@@ -94,7 +95,7 @@ export default async function FeedPage() {
     <>
       <UserNav active="home" />
       <div className="mx-auto w-full max-w-sm px-6 py-16">
-        <div className="mb-10 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between">
           <div>
             <p className="font-display text-xl italic text-ink">
               Ciao, {profile?.username ?? "fotografo"}
@@ -104,6 +105,10 @@ export default async function FeedPage() {
           <div className="rounded-full border border-accent/20 bg-accent-soft px-4 py-1.5 text-sm font-medium text-accent-ink">
             <span className="font-mono">{profile?.credit_balance ?? 0}</span> crediti
           </div>
+        </div>
+
+        <div className="mb-6 flex justify-end">
+          <InstallAppButton />
         </div>
 
         {todaysPost ? (
