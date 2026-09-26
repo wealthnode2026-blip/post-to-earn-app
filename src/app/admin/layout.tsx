@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 const NAV = [
   { href: "/admin/moderation", label: "Moderazione" },
   { href: "/admin/users", label: "Utenti" },
+  { href: "/admin/shop", label: "Shop" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
