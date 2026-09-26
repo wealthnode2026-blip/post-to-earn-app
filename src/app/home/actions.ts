@@ -54,6 +54,23 @@ export async function uploadDailyPhoto(
     return { error: "Il file supera i 10MB consentiti." };
   }
 
+  // Consuma il tentativo di upload (trial o rullino) solo dopo aver validato il file,
+  // cosi' un file scartato per formato/dimensione non brucia uno scatto.
+  const { data: attemptResult, error: attemptError } = await supabase.rpc(
+    "consume_upload_attempt"
+  );
+
+  if (attemptError) {
+    if (attemptError.message.includes("no_active_roll")) {
+      return {
+        error: "Nessun rullino attivo. Vai su Market per acquistarne uno e riprendere a caricare.",
+      };
+    }
+    return { error: "Non è stato possibile verificare il tuo rullino. Riprova." };
+  }
+
+  const isTrial = attemptResult === "trial";
+
   const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
   const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
 
@@ -70,6 +87,7 @@ export async function uploadDailyPhoto(
     image_path: path,
     week_start: mondayOfWeekUTC(),
     status: "pending",
+    is_trial: isTrial,
   });
 
   if (insertError) {

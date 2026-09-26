@@ -1,5 +1,8 @@
 import { UserNav } from "../components/user-nav";
 
+// Nota interna: Arena disattivata finche' la community non e' abbastanza numerosa
+// da rendere il voto interessante. Il codice precedente (matchmaking a coppie, voto
+// cieco, banner countdown) resta in repo, solo scollegato dal routing pubblico.
 export default function ArenaPage() {
   return (
     <>
@@ -12,25 +15,21 @@ export default function ArenaPage() {
           <p className="text-sm text-ink">Come funzionerà</p>
           <ul className="mt-3 space-y-3 text-sm text-ink-soft">
             <li>
-              Ogni <span className="text-ink">sabato</span> le foto approvate della settimana
-              vengono accoppiate in duelli a coppie.
+              Ogni <span className="text-ink">sabato</span> tutte le foto approvate della
+              settimana entrano in gara nell&apos;Arena.
             </li>
             <li>
-              Gli utenti <span className="text-ink">Pro e Master</span> votano la foto che
-              preferiscono tra le due.
+              Tutti gli utenti con un <span className="text-ink">rullino attivo</span> possono
+              votare la foto che preferiscono tra tutte quelle in gara.
             </li>
             <li>
-              Le votazioni chiudono la <span className="text-ink">domenica sera</span>: la foto
-              più votata vince ed entra nella Hall of Fame per sempre.
+              Le votazioni chiudono la <span className="text-ink">domenica sera</span>. La foto
+              più votata entra nella <span className="text-ink">Hall of Fame</span> per sempre, e
+              chi l&apos;ha scattata riceve anche un premio in{" "}
+              <span className="text-ink">USDT</span>.
             </li>
           </ul>
         </div>
-
-        <p className="mt-6 text-xs text-ink-soft">
-          Attiveremo l&apos;Arena appena la community sarà abbastanza numerosa da rendere i
-          duelli interessanti. Continua a caricare le tue foto: ogni scatto approvato conta comunque
-          per i tuoi crediti.
-        </p>
       </div>
     </>
   );
