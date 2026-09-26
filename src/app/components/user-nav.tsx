@@ -2,19 +2,97 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { NotificationBell } from "./notification-bell";
 
+type IconProps = { className?: string };
+
+function HomeIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M4 11.5 12 4l8 7.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6 10v9h12v-9" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ArenaIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TrophyIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M7 4h10v4a5 5 0 0 1-10 0V4Z" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7 5H4v1a4 4 0 0 0 4 4M17 5h3v1a4 4 0 0 1-4 4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10 17h4M12 13v4M9 20h6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TicketIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path
+        d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1a2 2 0 0 0 0 4v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1a2 2 0 0 0 0-4V9Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M10 7v10" strokeLinecap="round" strokeDasharray="1.5 2" />
+    </svg>
+  );
+}
+
+function DepositIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M12 4v11m0 0 4-4m-4 4-4-4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 19h16" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function WithdrawIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M12 20V9m0 0 4 4m-4-4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 5h16" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function MarketIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M5 9h14l-1 11H6L5 9Z" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 9V7a3 3 0 0 1 6 0v2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function AdminIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <path d="M12 3 5 6v5c0 4.5 3 7.7 7 9 4-1.3 7-4.5 7-9V6l-7-3Z" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m9.5 12 2 2 3.5-3.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export async function UserNav({
   active,
 }: {
   active: "home" | "arena" | "hall-of-fame" | "deposit" | "withdraw" | "market" | "support" | "admin";
 }) {
   const items = [
-    { href: "/home", key: "home" as const, label: "Home" },
-    { href: "/arena", key: "arena" as const, label: "Arena" },
-    { href: "/hall-of-fame", key: "hall-of-fame" as const, label: "Hall of Fame" },
-    { href: "/support", key: "support" as const, label: "Ticket" },
-    { href: "/deposit", key: "deposit" as const, label: "Depositi" },
-    { href: "/withdraw", key: "withdraw" as const, label: "Prelievi" },
-    { href: "/market", key: "market" as const, label: "Market" },
+    { href: "/home", key: "home" as const, label: "Home", Icon: HomeIcon },
+    { href: "/arena", key: "arena" as const, label: "Arena", Icon: ArenaIcon },
+    { href: "/hall-of-fame", key: "hall-of-fame" as const, label: "Fame", Icon: TrophyIcon },
+    { href: "/support", key: "support" as const, label: "Ticket", Icon: TicketIcon },
+    { href: "/deposit", key: "deposit" as const, label: "Depositi", Icon: DepositIcon },
+    { href: "/withdraw", key: "withdraw" as const, label: "Prelievi", Icon: WithdrawIcon },
+    { href: "/market", key: "market" as const, label: "Market", Icon: MarketIcon },
   ];
 
   const supabase = await createClient();
@@ -46,7 +124,7 @@ export async function UserNav({
   }
 
   const tabs = isAdmin
-    ? [...items, { href: "/admin/moderation", key: "admin" as const, label: "Admin" }]
+    ? [...items, { href: "/admin/moderation", key: "admin" as const, label: "Admin", Icon: AdminIcon }]
     : items;
 
   return (
@@ -54,7 +132,16 @@ export async function UserNav({
       <header className="sticky top-0 z-20 border-b border-line bg-pearl/85 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-sm items-center justify-between px-6 py-3">
           <Link href="/home" className="font-display text-base italic text-ink">
-            Atelier
+            <span
+              style={{
+                backgroundImage: "linear-gradient(120deg, var(--color-violet), var(--color-coral))",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              Atelier
+            </span>
           </Link>
           {user && <NotificationBell items={notifications} />}
         </div>
@@ -62,24 +149,39 @@ export async function UserNav({
 
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface/95 backdrop-blur-md">
         <div
-          className="mx-auto flex w-full max-w-sm items-stretch justify-around px-2 pt-2"
-          style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
+          className="mx-auto flex w-full max-w-sm items-stretch justify-around px-1 pt-2"
+          style={{ paddingBottom: "max(0.375rem, env(safe-area-inset-bottom))" }}
         >
-          {tabs.map((tab) => (
-            <Link
-              key={tab.key}
-              href={tab.href}
-              className={`mx-0.5 flex min-w-0 flex-1 flex-col items-center rounded-lg py-1.5 text-center text-[11px] font-medium transition-colors ${
-                active === tab.key
-                  ? tab.key === "admin"
-                    ? "bg-gold/15 text-gold"
-                    : "bg-accent/15 text-accent"
-                  : "text-ink-soft hover:text-ink"
-              }`}
-            >
-              <span className="truncate px-1">{tab.label}</span>
-            </Link>
-          ))}
+          {tabs.map((tab) => {
+            const isActive = active === tab.key;
+            const isGold = tab.key === "admin";
+            return (
+              <Link
+                key={tab.key}
+                href={tab.href}
+                className={`flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-lg py-1 text-center transition-colors ${
+                  isActive ? "text-ink" : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                <tab.Icon
+                  className="h-5 w-5"
+                  style={
+                    isActive
+                      ? {
+                          color: isGold ? "var(--color-gold)" : "var(--color-violet)",
+                          filter: isGold
+                            ? "drop-shadow(0 0 6px rgba(255,200,92,0.9))"
+                            : "drop-shadow(0 0 6px rgba(155,107,255,0.9))",
+                        }
+                      : undefined
+                  }
+                />
+                <span className="max-w-full truncate px-0.5 text-[9px] font-medium leading-none">
+                  {tab.label}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </nav>
     </>

@@ -9,40 +9,50 @@
 @import "@fontsource/jetbrains-mono/500.css";
 
 :root {
-  --color-pearl: #1c2130;
-  --color-surface: #262c40;
-  --color-surface-raised: #2e3550;
-  --color-ink: #eef0f8;
-  --color-ink-soft: #9aa2bd;
-  --color-line: #383f58;
+  --color-pearl: #150c26;
+  --color-surface: #201336;
+  --color-surface-raised: #2a1a45;
+  --color-surface-glass: rgba(255, 255, 255, 0.05);
+  --color-surface-glass-strong: rgba(255, 255, 255, 0.09);
+  --color-ink: #f8f3ff;
+  --color-ink-soft: #b6a8d9;
+  --color-line: rgba(255, 255, 255, 0.12);
   --color-accent: #5b8cff;
-  --color-accent-soft: #29335c;
-  --color-accent-ink: #c2d1ff;
-  --color-neon: #4ee6b3;
-  --color-neon-soft: #1e3730;
+  --color-accent-soft: #241a52;
+  --color-accent-ink: #d7c8ff;
+  --color-violet: #9b6bff;
+  --color-coral: #ff6f61;
+  --color-coral-soft: #ffb15e;
+  --color-neon: #2fe0b8;
+  --color-neon-soft: #103b32;
   --color-neon-ink: #8ef7cf;
-  --color-gold: #e6bd6c;
+  --color-gold: #ffc85c;
   --color-gold-soft: #3a2f1c;
-  --color-gold-ink: #f4d79a;
+  --color-gold-ink: #ffe3ab;
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 26px;
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
   --shadow-hover: 0 6px 24px rgba(91, 140, 255, 0.18), 0 0 0 1px rgba(91, 140, 255, 0.3);
-  --shadow-glow-neon: 0 6px 24px rgba(78, 230, 179, 0.18), 0 0 0 1px rgba(78, 230, 179, 0.3);
-  --shadow-glow-gold: 0 6px 24px rgba(230, 189, 108, 0.18), 0 0 0 1px rgba(230, 189, 108, 0.35);
+  --shadow-glow-neon: 0 6px 24px rgba(47, 224, 184, 0.18), 0 0 0 1px rgba(47, 224, 184, 0.3);
+  --shadow-glow-gold: 0 6px 24px rgba(255, 200, 92, 0.18), 0 0 0 1px rgba(255, 200, 92, 0.35);
 }
 
 @theme inline {
   --color-pearl: var(--color-pearl);
   --color-surface: var(--color-surface);
   --color-surface-raised: var(--color-surface-raised);
+  --color-surface-glass: var(--color-surface-glass);
+  --color-surface-glass-strong: var(--color-surface-glass-strong);
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
   --color-line: var(--color-line);
   --color-accent: var(--color-accent);
   --color-accent-soft: var(--color-accent-soft);
   --color-accent-ink: var(--color-accent-ink);
+  --color-violet: var(--color-violet);
+  --color-coral: var(--color-coral);
+  --color-coral-soft: var(--color-coral-soft);
   --color-neon: var(--color-neon);
   --color-neon-soft: var(--color-neon-soft);
   --color-neon-ink: var(--color-neon-ink);
@@ -77,57 +87,44 @@ body {
   font-family: var(--font-sans);
   padding-bottom: 5.5rem;
   isolation: isolate;
+  perspective: 1200px;
 }
 
-/* Bagliori animati: due macchie di luce che derivano lentamente */
+/* Aurora animata: gradient-mesh viola/corallo/teal/blu con grana */
 body::before {
+  content: "";
+  position: fixed;
+  inset: -30%;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(155, 107, 255, 0.5), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(255, 111, 97, 0.35), transparent 38%),
+    radial-gradient(circle at 75% 75%, rgba(47, 224, 184, 0.3), transparent 42%),
+    radial-gradient(circle at 20% 85%, rgba(91, 140, 255, 0.35), transparent 40%);
+  filter: blur(50px) saturate(140%);
+  animation: drift-aurora 24s ease-in-out infinite alternate;
+}
+
+body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background-image:
-    radial-gradient(ellipse 900px 500px at 20% -10%, rgba(91, 140, 255, 0.16), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 90% 30%, rgba(78, 230, 179, 0.10), transparent 60%),
-    radial-gradient(ellipse 800px 600px at 30% 110%, rgba(91, 140, 255, 0.10), transparent 60%);
-  background-repeat: no-repeat;
-  animation: drift-glow 22s ease-in-out infinite alternate;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
 }
 
-/* Fascio neon sottile che attraversa lo sfondo in diagonale */
-body::after {
-  content: "";
-  position: fixed;
-  inset: -20%;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    transparent 42%,
-    rgba(78, 230, 179, 0.05) 47%,
-    rgba(78, 230, 179, 0.14) 50%,
-    rgba(78, 230, 179, 0.05) 53%,
-    transparent 58%,
-    transparent 100%
-  );
-  background-size: 220% 220%;
-  animation: sweep-beam 16s linear infinite;
-}
-
-@keyframes drift-glow {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(2%, 3%) scale(1.05); }
-}
-
-@keyframes sweep-beam {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 100% 100%; }
+@keyframes drift-aurora {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate(-4%, 3%) scale(1.12) rotate(6deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body::before,
-  body::after {
+  body::before {
     animation: none;
   }
 }
@@ -138,6 +135,152 @@ body::after {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-violet);
   outline-offset: 2px;
+}
+
+/* --- Glassmorphism: bordo sfumato a tre colori + card in vetro --- */
+.glass {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(155, 107, 255, 0.55),
+    rgba(255, 111, 97, 0.35),
+    rgba(47, 224, 184, 0.4)
+  );
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.06) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.55),
+    0 10px 20px -10px rgba(139, 92, 246, 0.35);
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass:hover {
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.08) inset,
+    0 40px 70px -18px rgba(0, 0, 0, 0.6),
+    0 14px 28px -8px rgba(139, 92, 246, 0.5);
+}
+
+.glass-inner {
+  background: linear-gradient(160deg, var(--color-surface-glass-strong), var(--color-surface-glass));
+  backdrop-filter: blur(20px);
+  border-radius: calc(var(--radius-lg) - 1px);
+  padding: 20px;
+}
+
+.hof-glass {
+  background: linear-gradient(135deg, rgba(255, 200, 92, 0.7), rgba(255, 111, 97, 0.25));
+  box-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.08) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.6),
+    0 10px 24px -8px rgba(255, 200, 92, 0.35);
+}
+
+.hof-glass .glass-inner {
+  background: linear-gradient(160deg, rgba(255, 200, 92, 0.1), var(--color-surface-glass));
+}
+
+/* --- Bottone olografico --- */
+.btn-primary {
+  position: relative;
+  border: none;
+  border-radius: 999px;
+  padding: 14px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1a0f2e;
+  background: linear-gradient(
+    120deg,
+    var(--color-coral-soft),
+    var(--color-coral),
+    var(--color-violet),
+    var(--color-accent)
+  );
+  background-size: 300% 100%;
+  animation: btn-shift 6s ease infinite;
+  cursor: pointer;
+  box-shadow:
+    0 12px 24px -8px rgba(255, 111, 97, 0.5),
+    0 4px 10px -2px rgba(139, 92, 246, 0.4);
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  animation: btn-shine 3.2s ease-in-out infinite;
+}
+
+@keyframes btn-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes btn-shine {
+  0% { left: -60%; }
+  40%, 100% { left: 130%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary {
+    animation: none;
+  }
+  .btn-primary::after {
+    display: none;
+  }
+}
+
+/* --- Anello di progresso scatti rullino --- */
+.shots-ring {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.shots-ring svg {
+  transform: rotate(-90deg);
+}
+
+.shots-ring .track {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.shots-ring .progress {
+  stroke: url(#ringGradient);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+  filter: drop-shadow(0 0 6px rgba(155, 107, 255, 0.6));
+}
+
+.shots-ring .count {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.shots-ring .count .num {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.shots-ring .count .of {
+  font-size: 8px;
+  color: var(--color-ink-soft);
+  margin-top: 1px;
 }

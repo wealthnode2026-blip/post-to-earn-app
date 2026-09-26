@@ -4,6 +4,7 @@ import { UserNav } from "../components/user-nav";
 import { MarketActionsPanel } from "./market-actions-panel";
 
 const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, master: 2 };
+const FILM_ROLL_SHOTS = 30;
 
 export default async function MarketPage() {
   const supabase = await createClient();
@@ -21,11 +22,10 @@ export default async function MarketPage() {
 
   const { data: activeRoll } = await supabase
     .from("film_rolls")
-    .select("shots_remaining, expires_at")
+    .select("shots_remaining")
     .eq("user_id", user.id)
     .gt("shots_remaining", 0)
-    .gt("expires_at", new Date().toISOString())
-    .order("expires_at", { ascending: false })
+    .order("created_at", { ascending: true })
     .limit(1)
     .maybeSingle();
 
@@ -66,8 +66,7 @@ export default async function MarketPage() {
           )}
           {!trialActive && activeRoll && (
             <p className="text-ink">
-              Rullino attivo — {activeRoll.shots_remaining} scatti rimasti, scade il{" "}
-              {new Date(activeRoll.expires_at).toLocaleDateString("it-IT")}.
+              Rullino attivo — {activeRoll.shots_remaining} scatti rimasti.
             </p>
           )}
           {!trialActive && !activeRoll && (
@@ -76,16 +75,16 @@ export default async function MarketPage() {
               USDT prelevabili.
             </p>
           )}
-          <p className="mt-2 text-xs text-ink-soft">
-            Bonus non prelevabile: {Number(profile?.bonus_balance ?? 0)} USDT · Saldo depositato:{" "}
-            {Number(profile?.money_balance ?? 0)} USDT
-          </p>
         </div>
 
         <div className="mt-6">
           <MarketActionsPanel
             canBuyRoll={Number(profile?.money_balance ?? 0) > 0}
             cameras={cameras}
+            shotsRemaining={activeRoll ? activeRoll.shots_remaining : undefined}
+            shotsTotal={activeRoll ? FILM_ROLL_SHOTS : undefined}
+            bonusBalance={Number(profile?.bonus_balance ?? 0)}
+            creditBalance={Number(profile?.money_balance ?? 0)}
           />
         </div>
       </div>
