@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { submitVote } from "./actions";
+import { PhotoCard } from "../components/photo-card";
 
 export function DuelCard({
   duelId,
@@ -26,8 +27,8 @@ export function DuelCard({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-surface">
-      <div className="grid grid-cols-2 gap-px bg-line">
+    <div>
+      <div className="grid grid-cols-2 gap-4">
         {[
           { key: "a" as const, url: imageA },
           { key: "b" as const, url: imageB },
@@ -36,23 +37,25 @@ export function DuelCard({
             key={key}
             disabled={isPending || voted !== null}
             onClick={() => vote(key)}
-            className={`relative aspect-[4/5] bg-surface transition-opacity ${
+            className={`text-left transition-opacity disabled:cursor-default ${
               voted && voted !== key ? "opacity-40" : ""
-            } disabled:cursor-default`}
+            }`}
           >
-            {url && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={url} alt="Foto in duello" className="h-full w-full object-cover" />
-            )}
-            {voted === key && (
-              <span className="absolute bottom-2 right-2 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-white">
-                Votata
-              </span>
-            )}
+            <PhotoCard
+              imageUrl={url}
+              alt="Foto in duello"
+              badge={
+                voted === key && (
+                  <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-white">
+                    Votata
+                  </span>
+                )
+              }
+            />
           </button>
         ))}
       </div>
-      {error && <p className="px-4 py-2 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
     </div>
   );
 }

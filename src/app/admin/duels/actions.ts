@@ -144,5 +144,20 @@ export async function closeWeekAndCrownWinner() {
 
   revalidatePath("/admin/duels");
   revalidatePath("/arena");
-  revalidatePath("/feed");
+  revalidatePath("/home");
+}
+
+export async function updateDuelPrize(prizeText: string) {
+  const { supabase } = await requireAdmin();
+
+  const trimmed = prizeText.trim();
+  if (!trimmed) throw new Error("Il testo del premio non può essere vuoto");
+
+  await supabase
+    .from("app_settings")
+    .update({ value: trimmed, updated_at: new Date().toISOString() })
+    .eq("key", "duel_prize");
+
+  revalidatePath("/admin/duels");
+  revalidatePath("/arena");
 }

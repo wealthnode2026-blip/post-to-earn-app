@@ -18,7 +18,7 @@ export function WeekControls() {
   }
 
   return (
-    <div className="mb-8 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-surface p-4">
+    <div className="mb-8 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-surface p-4">
       <button
         disabled={isPending}
         onClick={() => run(generateWeeklyDuels)}

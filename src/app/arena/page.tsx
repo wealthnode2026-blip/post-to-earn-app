@@ -1,12 +1,15 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { getWeekStart } from "@/lib/week";
+import { getRomeDuelsPhase } from "@/utils/date";
 import { DuelCard } from "./duel-card";
+import { DuelBanner } from "./duel-banner";
 import { UserNav } from "../components/user-nav";
 
 export default async function ArenaPage() {
   const supabase = await createClient();
   const weekStart = getWeekStart();
+  const phase = getRomeDuelsPhase();
 
   const {
     data: { user },
@@ -19,12 +22,23 @@ export default async function ArenaPage() {
     .eq("id", user.id)
     .single();
 
+  const { data: prizeSetting } = await supabase
+    .from("app_settings")
+    .select("value")
+    .eq("key", "duel_prize")
+    .single();
+
+  const prize = prizeSetting?.value ?? "";
+
   if (!profile || profile.plan === "free") {
     return (
       <>
         <UserNav active="arena" />
         <div>
         <h1 className="font-display text-2xl italic text-ink">Arena dei Duelli</h1>
+        <div className="mt-6">
+          <DuelBanner phase={phase} prize={prize} />
+        </div>
         <p className="mt-3 text-sm text-ink-soft">
           L&apos;Arena è riservata agli utenti Pro e Master. Passa a un piano superiore per
           partecipare e votare.
@@ -84,7 +98,12 @@ export default async function ArenaPage() {
       <UserNav active="arena" />
       <div>
       <h1 className="font-display text-2xl italic text-ink">Arena dei Duelli</h1>
-      <p className="mt-1 text-sm text-ink-soft">
+
+      <div className="mt-6">
+        <DuelBanner phase={phase} prize={prize} />
+      </div>
+
+      <p className="text-sm text-ink-soft">
         {items.length === 0
           ? "Nessun duello da votare al momento."
           : `${items.length} duelli da votare — scegli la tua foto preferita.`}

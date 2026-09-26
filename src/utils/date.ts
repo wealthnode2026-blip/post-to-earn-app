@@ -10,3 +10,16 @@ export function mondayOfWeekUTC(date: Date = new Date()): string {
   d.setUTCDate(d.getUTCDate() + diffToMonday);
   return d.toISOString().slice(0, 10); // YYYY-MM-DD
 }
+
+export type DuelsPhase = "before" | "open" | "last-day";
+
+export function getRomeDuelsPhase(date: Date = new Date()): DuelsPhase {
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Rome",
+    weekday: "short",
+  }).format(date);
+
+  if (weekday === "Sat") return "open";
+  if (weekday === "Sun") return "last-day";
+  return "before";
+}

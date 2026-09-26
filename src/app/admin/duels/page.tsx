@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { getWeekStart } from "@/lib/week";
 import { WeekControls } from "./week-controls";
+import { PrizeForm } from "./prize-form";
 
 export default async function DuelsPage() {
   const supabase = await createClient();
@@ -13,12 +14,19 @@ export default async function DuelsPage() {
     )
     .eq("week_start", weekStart);
 
+  const { data: prizeSetting } = await supabase
+    .from("app_settings")
+    .select("value")
+    .eq("key", "duel_prize")
+    .single();
+
   return (
     <div>
       <h1 className="font-display text-2xl italic text-ink">Arena dei Duelli</h1>
       <p className="mt-1 text-sm text-ink-soft">Settimana corrente: {weekStart}</p>
 
       <div className="mt-6">
+        <PrizeForm initialValue={prizeSetting?.value ?? ""} />
         <WeekControls />
       </div>
 
