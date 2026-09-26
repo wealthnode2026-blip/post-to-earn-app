@@ -2,7 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 
-const NAV = [{ href: "/admin/moderation", label: "Moderazione" }];
+const NAV = [
+  { href: "/admin/moderation", label: "Moderazione" },
+  { href: "/admin/users", label: "Utenti" },
+];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
