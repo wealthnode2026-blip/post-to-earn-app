@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin/shop", label: "Shop" },
   { href: "/admin/duels", label: "Duelli" },
   { href: "/admin/deposits", label: "Depositi" },
+  { href: "/admin/withdrawals", label: "Prelievi" },
   { href: "/admin/support", label: "Supporto" },
 ];
 
@@ -26,14 +27,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .eq("id", user.id)
     .single();
 
-  if (!profile?.is_admin) redirect("/feed");
+  if (!profile?.is_admin) redirect("/home");
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-line bg-surface px-6 py-4">
-        <div className="mx-auto flex max-w-4xl items-center justify-between">
+      <header className="border-b border-line bg-surface px-4 py-4 sm:px-6">
+        <div className="mx-auto max-w-4xl">
           <span className="font-display text-lg italic text-ink">Atelier — Admin</span>
-          <nav className="flex gap-5">
+          <nav className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
             {NAV.map((item) => (
               <Link
                 key={item.href}
@@ -43,13 +44,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 {item.label}
               </Link>
             ))}
-            <Link href="/feed" className="text-sm font-medium text-ink-soft hover:text-ink">
+            <Link href="/home" className="text-sm font-medium text-accent hover:opacity-80">
               Torna all&apos;app
             </Link>
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl px-6 py-10">{children}</main>
+      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6">{children}</main>
     </div>
   );
 }
