@@ -31,6 +31,27 @@ export async function signup(
   const registration_ip = getClientIp(headerList);
 
   const supabase = await createClient();
+
+  const shouldCheckIp =
+    process.env.NODE_ENV === "production" && registration_ip !== "unknown";
+
+  if (shouldCheckIp) {
+    const { data: ipAlreadyUsed, error: ipCheckError } = await supabase.rpc(
+      "is_ip_registered",
+      { check_ip: registration_ip }
+    );
+
+    if (ipCheckError) {
+      return { error: "Errore durante la verifica, riprova." };
+    }
+
+    if (ipAlreadyUsed) {
+      return {
+        error: "Risulta già registrato un account da questo indirizzo IP.",
+      };
+    }
+  }
+
   const { error } = await supabase.auth.signUp({
     email,
     password,

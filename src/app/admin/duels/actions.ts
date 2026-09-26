@@ -116,6 +116,12 @@ export async function closeWeekAndCrownWinner() {
     votes_received: winnerVotes,
   });
 
+  await supabase.from("notifications").insert({
+    user_id: winnerPost.user_id,
+    message: `Hai vinto l'Arena dei Duelli della settimana del ${weekStart}! La tua foto è entrata nella Hall of Fame.`,
+    link: "/hall-of-fame",
+  });
+
   const duelIds = duels.map((d) => d.id);
 
   // Pulizia: rimuovi prima i voti, poi i duelli (per rispettare i vincoli di foreign key)
