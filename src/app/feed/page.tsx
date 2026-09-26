@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { startOfTodayUTC } from "@/utils/date";
 import { UploadForm } from "./upload-form";
+import { UserNav } from "../components/user-nav";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "In attesa di moderazione",
@@ -48,7 +49,9 @@ export default async function FeedPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-sm px-6 py-16">
+    <>
+      <UserNav active="feed" />
+      <div className="mx-auto w-full max-w-sm px-6 py-16">
       <div className="mb-10 flex items-center justify-between">
         <div>
           <p className="font-display text-xl italic text-ink">
@@ -76,5 +79,6 @@ export default async function FeedPage() {
         <UploadForm />
       )}
     </div>
+    </>
   );
 }
