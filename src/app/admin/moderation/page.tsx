@@ -6,7 +6,7 @@ export default async function ModerationPage() {
 
   const { data: posts } = await supabase
     .from("posts")
-    .select("id, image_path, created_at, profiles(username)")
+    .select("id, image_path, created_at, profiles!posts_user_id_fkey(username)")
     .eq("status", "pending")
     .order("created_at", { ascending: true });
 
