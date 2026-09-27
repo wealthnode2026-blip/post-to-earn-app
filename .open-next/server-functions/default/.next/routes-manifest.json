@@ -1,0 +1,200 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/admin/support/[id]",
+      "regex": "^/admin/support/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/admin/support/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/support/[id]",
+      "regex": "^/support/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/support/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/admin/analytics",
+      "regex": "^/admin/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/analytics(?:/)?$"
+    },
+    {
+      "page": "/admin/deposits",
+      "regex": "^/admin/deposits(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/deposits(?:/)?$"
+    },
+    {
+      "page": "/admin/duels",
+      "regex": "^/admin/duels(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/duels(?:/)?$"
+    },
+    {
+      "page": "/admin/moderation",
+      "regex": "^/admin/moderation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/moderation(?:/)?$"
+    },
+    {
+      "page": "/admin/shop",
+      "regex": "^/admin/shop(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/shop(?:/)?$"
+    },
+    {
+      "page": "/admin/support",
+      "regex": "^/admin/support(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/support(?:/)?$"
+    },
+    {
+      "page": "/admin/users",
+      "regex": "^/admin/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/users(?:/)?$"
+    },
+    {
+      "page": "/admin/withdrawals",
+      "regex": "^/admin/withdrawals(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/withdrawals(?:/)?$"
+    },
+    {
+      "page": "/api/track",
+      "regex": "^/api/track(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/track(?:/)?$"
+    },
+    {
+      "page": "/arena",
+      "regex": "^/arena(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/arena(?:/)?$"
+    },
+    {
+      "page": "/deposit",
+      "regex": "^/deposit(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/deposit(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/friends",
+      "regex": "^/friends(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/friends(?:/)?$"
+    },
+    {
+      "page": "/home",
+      "regex": "^/home(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/home(?:/)?$"
+    },
+    {
+      "page": "/info",
+      "regex": "^/info(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/info(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/market",
+      "regex": "^/market(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/market(?:/)?$"
+    },
+    {
+      "page": "/signup",
+      "regex": "^/signup(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/signup(?:/)?$"
+    },
+    {
+      "page": "/support",
+      "regex": "^/support(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/support(?:/)?$"
+    },
+    {
+      "page": "/withdraw",
+      "regex": "^/withdraw(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/withdraw(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

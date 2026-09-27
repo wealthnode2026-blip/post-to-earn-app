@@ -70,6 +70,12 @@ export async function approvePost(postId: string) {
     });
   }
 
+  await supabase.rpc("create_notification", {
+    p_user_id: post.user_id,
+    p_message: `La tua foto è stata approvata! Hai guadagnato ${creditsAwarded} crediti.`,
+    p_link: "/home",
+  });
+
   revalidatePath("/admin/moderation");
   revalidatePath("/home");
 }
@@ -79,7 +85,7 @@ export async function rejectPost(postId: string) {
 
   const { data: post } = await supabase
     .from("posts")
-    .select("id, image_path, status")
+    .select("id, image_path, status, user_id")
     .eq("id", postId)
     .single();
 
@@ -96,6 +102,12 @@ export async function rejectPost(postId: string) {
 
   // La foto scartata viene rimossa dallo storage (coerente con l'obiettivo costo zero)
   await supabase.storage.from("daily-photos").remove([post.image_path]);
+
+  await supabase.rpc("create_notification", {
+    p_user_id: post.user_id,
+    p_message: "La tua foto è stata rifiutata dalla moderazione.",
+    p_link: "/home",
+  });
 
   revalidatePath("/admin/moderation");
   revalidatePath("/home");

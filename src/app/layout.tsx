@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import PageViewTracker from "./components/page-view-tracker";
 
 export const metadata: Metadata = {
   title: "Atelier — Post-to-Earn",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="it" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-pearl text-ink font-sans">
+        <PageViewTracker />
         {children}
       </body>
     </html>

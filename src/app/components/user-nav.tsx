@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import type { CSSProperties } from "react";
 import { createClient } from "@/utils/supabase/server";
 import { NotificationBell } from "./notification-bell";
@@ -10,6 +11,15 @@ function HomeIcon({ className }: IconProps) {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
       <path d="M4 11.5 12 4l8 7.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M6 10v9h12v-9" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function InfoIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <circle cx="12" cy="12" r="9" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 11v5.5M12 8v.01" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -81,15 +91,22 @@ function AdminIcon({ className }: IconProps) {
   );
 }
 
+async function signOut() {
+  "use server";
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
+}
+
 export async function UserNav({
   active,
 }: {
-  active: "home" | "arena" | "hall-of-fame" | "deposit" | "withdraw" | "market" | "support" | "admin";
+  active: "info" | "home" | "arena" | "deposit" | "withdraw" | "market" | "support" | "admin";
 }) {
   const items = [
+    { href: "/info", key: "info" as const, label: "Info", Icon: InfoIcon },
     { href: "/home", key: "home" as const, label: "Home", Icon: HomeIcon },
     { href: "/arena", key: "arena" as const, label: "Arena", Icon: ArenaIcon },
-    { href: "/hall-of-fame", key: "hall-of-fame" as const, label: "Fame", Icon: TrophyIcon },
     { href: "/support", key: "support" as const, label: "Ticket", Icon: TicketIcon },
     { href: "/deposit", key: "deposit" as const, label: "Depositi", Icon: DepositIcon },
     { href: "/withdraw", key: "withdraw" as const, label: "Prelievi", Icon: WithdrawIcon },
@@ -131,7 +148,10 @@ export async function UserNav({
   return (
     <>
       <header className="sticky top-0 z-20 border-b border-line bg-pearl/85 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-sm items-center justify-between px-6 py-3">
+        <div
+          className="mx-auto flex w-full max-w-sm items-center justify-between px-6 py-3"
+          style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top))" }}
+        >
           <Link href="/home" className="font-display text-base italic text-ink">
             <span
               style={{
@@ -144,7 +164,19 @@ export async function UserNav({
               Atelier
             </span>
           </Link>
-          {user && <NotificationBell items={notifications} />}
+          {user && (
+            <div className="flex items-center gap-3">
+              <NotificationBell items={notifications} />
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="text-xs font-medium text-ink-soft transition-colors hover:text-ink"
+                >
+                  Esci
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       </header>
 
