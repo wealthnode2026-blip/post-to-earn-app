@@ -38,3 +38,15 @@ export async function setUserBan(userId: string, banned: boolean) {
 
   revalidatePath("/admin/users");
 }
+
+export async function setUserBalance(userId: string, newBalance: number) {
+  const { supabase } = await requireAdmin();
+
+  if (Number.isNaN(newBalance) || newBalance < 0) {
+    throw new Error("Saldo non valido");
+  }
+
+  await supabase.from("profiles").update({ money_balance: newBalance }).eq("id", userId);
+
+  revalidatePath("/admin/users");
+}

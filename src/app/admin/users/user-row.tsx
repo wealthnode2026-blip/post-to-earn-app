@@ -2,10 +2,12 @@
 
 import { useTransition } from "react";
 import { setUserBan } from "./actions";
+import { BalanceEditor } from "./balance-editor";
 
 type UserProfile = {
   id: string;
   username: string | null;
+  email: string | null;
   plan: string;
   multiplier: number;
   money_balance: number;
@@ -19,7 +21,12 @@ export function UserRow({ user }: { user: UserProfile }) {
   return (
     <div className="rounded-lg border border-line bg-surface p-4">
       <div className="flex items-center justify-between gap-3">
-        <p className="truncate font-medium text-ink">{user.username ?? "—"}</p>
+        <div className="min-w-0">
+          <p className="truncate font-medium text-ink">{user.username ?? "—"}</p>
+          {user.email && (
+            <p className="truncate text-xs text-ink-soft">{user.email}</p>
+          )}
+        </div>
         {user.is_banned ? (
           <span className="shrink-0 rounded-full bg-red-950 px-2.5 py-1 text-xs font-medium text-red-300">
             Bannato
@@ -40,7 +47,7 @@ export function UserRow({ user }: { user: UserProfile }) {
         </div>
         <div>
           <span className="block text-xs text-ink-soft">Saldo (USDT)</span>
-          <span className="font-mono text-ink">{user.money_balance}</span>
+          <BalanceEditor userId={user.id} currentBalance={user.money_balance} />
         </div>
       </div>
 
