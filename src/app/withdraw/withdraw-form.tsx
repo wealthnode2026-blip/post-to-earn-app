@@ -13,11 +13,14 @@ export function WithdrawForm({ balance }: { balance: number }) {
       ref={formRef}
       action={(formData) => {
         setError(null);
-        startTransition(() =>
-          submitWithdrawal(formData)
-            .then(() => formRef.current?.reset())
-            .catch((err: Error) => setError(err.message))
-        );
+        startTransition(async () => {
+          const result = await submitWithdrawal(formData);
+          if (result?.error) {
+            setError(result.error);
+          } else {
+            formRef.current?.reset();
+          }
+        });
       }}
       className="space-y-4 rounded-lg border border-line bg-surface p-5"
     >
