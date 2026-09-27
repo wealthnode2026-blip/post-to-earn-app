@@ -17,19 +17,19 @@ function FilmRollArt() {
     <svg viewBox="0 0 64 64" fill="none" className="h-14 w-14 shrink-0" style={{ filter: "drop-shadow(0 10px 16px rgba(0,0,0,0.4))" }}>
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="64" y2="64">
-          <stop offset="0%" stopColor="#9b6bff" />
-          <stop offset="100%" stopColor="#5b8cff" />
+          <stop offset="0%" stopColor="#ff36e0" />
+          <stop offset="100%" stopColor="#a855f7" />
         </linearGradient>
         <linearGradient id={gradId2} x1="0" y1="0" x2="64" y2="0">
-          <stop offset="0%" stopColor="#2fe0b8" />
-          <stop offset="100%" stopColor="#9b6bff" />
+          <stop offset="0%" stopColor="#26e6ff" />
+          <stop offset="100%" stopColor="#ff36e0" />
         </linearGradient>
       </defs>
       <rect x="10" y="18" width="44" height="38" rx="8" fill={`url(#${gradId})`} />
       <rect x="16" y="8" width="32" height="14" rx="5" fill={`url(#${gradId2})`} />
-      <rect x="24" y="0" width="16" height="10" rx="3" fill="#1a0f2e" />
-      <circle cx="32" cy="38" r="11" fill="#1a0f2e" />
-      <circle cx="32" cy="38" r="4.5" fill="#150c26" stroke="#ffc85c" strokeWidth="1.5" />
+      <rect x="24" y="0" width="16" height="10" rx="3" fill="#07050f" />
+      <circle cx="32" cy="38" r="11" fill="#07050f" />
+      <circle cx="32" cy="38" r="4.5" fill="#07050f" stroke="#ffcf4d" strokeWidth="1.5" />
       <rect x="14" y="30" width="6" height="4" rx="1.5" fill="#ffffff" opacity="0.5" />
     </svg>
   );
@@ -38,7 +38,7 @@ function FilmRollArt() {
 function CameraArt({ variant }: { variant: "pro" | "master" }) {
   const gradId = useId();
   const colors =
-    variant === "pro" ? (["#5b8cff", "#9b6bff", "#2fe0b8"] as const) : (["#ffc85c", "#ff6f61", "#ffc85c"] as const);
+    variant === "pro" ? (["#ff36e0", "#a855f7", "#26e6ff"] as const) : (["#ffcf4d", "#ff36e0", "#ffcf4d"] as const);
   return (
     <svg viewBox="0 0 48 48" fill="none" className="h-10 w-10 shrink-0" style={{ filter: "drop-shadow(0 8px 12px rgba(0,0,0,0.4))" }}>
       <defs>
@@ -49,7 +49,7 @@ function CameraArt({ variant }: { variant: "pro" | "master" }) {
       </defs>
       <rect x="4" y="14" width="40" height="26" rx="6" fill={`url(#${gradId})`} />
       <rect x="16" y="8" width="16" height="8" rx="3" fill={`url(#${gradId})`} />
-      <circle cx="24" cy="27" r="9" fill="#150c26" />
+      <circle cx="24" cy="27" r="9" fill="#07050f" />
       <circle cx="24" cy="27" r="5.5" fill={`url(#${gradId})`} opacity="0.55" />
       <circle cx="35" cy="19" r="2" fill={colors[2]} />
     </svg>
@@ -67,9 +67,9 @@ function ShotsRing({ remaining, total }: { remaining: number; total: number }) {
       <svg width="64" height="64" viewBox="0 0 64 64">
         <defs>
           <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#9b6bff" />
-            <stop offset="50%" stopColor="#5b8cff" />
-            <stop offset="100%" stopColor="#2fe0b8" />
+            <stop offset="0%" stopColor="#ff36e0" />
+            <stop offset="50%" stopColor="#26e6ff" />
+            <stop offset="100%" stopColor="#2be8b0" />
           </linearGradient>
         </defs>
         <circle className="track" cx="32" cy="32" r={r} fill="none" strokeWidth="6" />
@@ -191,18 +191,18 @@ export function MarketActionsPanel({
                     className={
                       camera.owned
                         ? "shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-bold"
-                        : "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#2a1200] disabled:opacity-40"
+                        : "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold text-white disabled:opacity-40"
                     }
                     style={
                       camera.owned
                         ? {
-                            background: "rgba(47,224,184,0.16)",
+                            background: "rgba(43,232,176,0.16)",
                             color: "var(--color-neon)",
-                            borderColor: "rgba(47,224,184,0.35)",
+                            borderColor: "rgba(43,232,176,0.35)",
                           }
                         : {
-                            background: "linear-gradient(120deg, var(--color-coral), var(--color-coral-soft))",
-                            boxShadow: "0 6px 14px -4px rgba(255,111,97,0.5)",
+                            background: "linear-gradient(120deg, var(--color-coral), var(--color-violet))",
+                            boxShadow: "0 6px 14px -4px rgba(255,54,224,0.5)",
                           }
                     }
                   >

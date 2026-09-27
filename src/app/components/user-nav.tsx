@@ -152,13 +152,14 @@ export async function UserNav({
           className="mx-auto flex w-full max-w-sm items-center justify-between px-6 py-3"
           style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top))" }}
         >
-          <Link href="/home" className="font-display text-base italic text-ink">
+          <Link href="/home" className="text-ink">
             <span
               style={{
-                backgroundImage: "linear-gradient(120deg, var(--color-violet), var(--color-coral))",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
+                fontFamily: "var(--font-script)",
+                fontSize: "26px",
+                color: "#ffffff",
+                textShadow:
+                  "0 0 6px #ffffff, 0 0 16px var(--color-coral), 0 0 32px var(--color-violet)",
               }}
             >
               Atelier
@@ -203,8 +204,8 @@ export async function UserNav({
                       ? {
                           color: isGold ? "var(--color-gold)" : "var(--color-violet)",
                           filter: isGold
-                            ? "drop-shadow(0 0 6px rgba(255,200,92,0.9))"
-                            : "drop-shadow(0 0 6px rgba(155,107,255,0.9))",
+                            ? "drop-shadow(0 0 6px rgba(255,207,77,0.9))"
+                            : "drop-shadow(0 0 6px rgba(168,85,247,0.9))",
                         }
                       : undefined
                   }

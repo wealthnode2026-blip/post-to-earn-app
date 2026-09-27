@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Pacifico&display=swap");
 @import "tailwindcss";
 @import "@fontsource/fraunces/500.css";
 @import "@fontsource/fraunces/600.css";
@@ -9,33 +10,34 @@
 @import "@fontsource/jetbrains-mono/500.css";
 
 :root {
-  --color-pearl: #150c26;
-  --color-surface: #201336;
-  --color-surface-raised: #2a1a45;
+  --color-pearl: #07050f;
+  --color-surface: #0c0a1e;
+  --color-surface-raised: #14112c;
   --color-surface-glass: rgba(255, 255, 255, 0.05);
   --color-surface-glass-strong: rgba(255, 255, 255, 0.09);
-  --color-ink: #f8f3ff;
-  --color-ink-soft: #b6a8d9;
-  --color-line: rgba(255, 255, 255, 0.12);
-  --color-accent: #5b8cff;
-  --color-accent-soft: #241a52;
-  --color-accent-ink: #d7c8ff;
-  --color-violet: #9b6bff;
-  --color-coral: #ff6f61;
-  --color-coral-soft: #ffb15e;
-  --color-neon: #2fe0b8;
-  --color-neon-soft: #103b32;
+  --color-ink: #f4f2ff;
+  --color-ink-soft: #a8a3c4;
+  --color-line: rgba(38, 230, 255, 0.28);
+  --color-accent: #26e6ff;
+  --color-accent-soft: #0b2a33;
+  --color-accent-ink: #9df1ff;
+  --color-violet: #a855f7;
+  --color-coral: #ff36e0;
+  --color-coral-soft: #ffcf4d;
+  --color-neon: #2be8b0;
+  --color-neon-soft: #0c3327;
   --color-neon-ink: #8ef7cf;
-  --color-gold: #ffc85c;
+  --color-gold: #ffcf4d;
   --color-gold-soft: #3a2f1c;
   --color-gold-ink: #ffe3ab;
+  --font-script: "Pacifico", cursive;
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 26px;
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
-  --shadow-hover: 0 6px 24px rgba(91, 140, 255, 0.18), 0 0 0 1px rgba(91, 140, 255, 0.3);
-  --shadow-glow-neon: 0 6px 24px rgba(47, 224, 184, 0.18), 0 0 0 1px rgba(47, 224, 184, 0.3);
-  --shadow-glow-gold: 0 6px 24px rgba(255, 200, 92, 0.18), 0 0 0 1px rgba(255, 200, 92, 0.35);
+  --shadow-hover: 0 6px 24px rgba(38, 230, 255, 0.22), 0 0 0 1px rgba(38, 230, 255, 0.35);
+  --shadow-glow-neon: 0 6px 24px rgba(43, 232, 176, 0.22), 0 0 0 1px rgba(43, 232, 176, 0.35);
+  --shadow-glow-gold: 0 6px 24px rgba(255, 207, 77, 0.22), 0 0 0 1px rgba(255, 207, 77, 0.4);
 }
 
 @theme inline {
@@ -59,7 +61,7 @@
   --color-gold: var(--color-gold);
   --color-gold-soft: var(--color-gold-soft);
   --color-gold-ink: var(--color-gold-ink);
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --radius-sm: var(--radius-sm);
@@ -89,7 +91,7 @@ body {
   isolation: isolate;
 }
 
-/* Aurora animata: gradient-mesh viola/corallo/teal/blu con grana */
+/* Neon aurora: glow ciano/magenta/viola/teal su base quasi nera */
 body::before {
   content: "";
   position: fixed;
@@ -97,11 +99,11 @@ body::before {
   z-index: -3;
   pointer-events: none;
   background:
-    radial-gradient(circle at 15% 20%, rgba(155, 107, 255, 0.5), transparent 40%),
-    radial-gradient(circle at 85% 10%, rgba(255, 111, 97, 0.35), transparent 38%),
-    radial-gradient(circle at 75% 75%, rgba(47, 224, 184, 0.3), transparent 42%),
-    radial-gradient(circle at 20% 85%, rgba(91, 140, 255, 0.35), transparent 40%);
-  filter: blur(50px) saturate(140%);
+    radial-gradient(circle at 15% 20%, rgba(38, 230, 255, 0.45), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(255, 54, 224, 0.4), transparent 38%),
+    radial-gradient(circle at 75% 75%, rgba(43, 232, 176, 0.35), transparent 42%),
+    radial-gradient(circle at 20% 85%, rgba(168, 85, 247, 0.4), transparent 40%);
+  filter: blur(65px) saturate(160%);
   animation: drift-aurora 24s ease-in-out infinite alternate;
 }
 
@@ -138,49 +140,69 @@ body::after {
   outline-offset: 2px;
 }
 
-/* --- Glassmorphism: bordo sfumato a tre colori + card in vetro --- */
+/* --- Logo script neon (navbar) --- */
+.logo-script {
+  font-family: "Pacifico", cursive;
+  font-style: normal;
+  color: #fff;
+  text-shadow: 0 0 6px #fff, 0 0 16px var(--color-coral), 0 0 32px var(--color-violet);
+}
+
+/* --- Titoli: da serif corsivo a bold sans con glow neon --- */
+.font-display {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 18px rgba(38, 230, 255, 0.28);
+}
+
+.font-display.italic {
+  font-style: normal;
+}
+
+/* --- Card generiche (border-line): alone neon invece del bordo bianco spento --- */
+.border.border-line {
+  box-shadow: 0 0 20px -10px var(--color-line);
+}
+
+/* --- Card neon: bordo netto luminoso al posto del glassmorphism --- */
 .glass {
   position: relative;
   border-radius: var(--radius-lg);
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(155, 107, 255, 0.55),
-    rgba(255, 111, 97, 0.35),
-    rgba(47, 224, 184, 0.4)
-  );
+  background: var(--color-surface);
+  border: 1.5px solid rgba(38, 230, 255, 0.35);
   box-shadow:
-    0 1px 1px rgba(255, 255, 255, 0.06) inset,
-    0 30px 60px -20px rgba(0, 0, 0, 0.55),
-    0 10px 20px -10px rgba(139, 92, 246, 0.35);
+    0 1px 1px rgba(255, 255, 255, 0.04) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.65),
+    0 0 34px -12px rgba(38, 230, 255, 0.45);
   transform-style: preserve-3d;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .glass:hover {
+  border-color: rgba(38, 230, 255, 0.6);
   box-shadow:
-    0 1px 1px rgba(255, 255, 255, 0.08) inset,
-    0 40px 70px -18px rgba(0, 0, 0, 0.6),
-    0 14px 28px -8px rgba(139, 92, 246, 0.5);
+    0 1px 1px rgba(255, 255, 255, 0.06) inset,
+    0 40px 70px -18px rgba(0, 0, 0, 0.7),
+    0 0 44px -8px rgba(38, 230, 255, 0.55);
 }
 
 .glass-inner {
-  background: linear-gradient(160deg, var(--color-surface-glass-strong), var(--color-surface-glass));
-  backdrop-filter: blur(20px);
+  background: transparent;
   border-radius: calc(var(--radius-lg) - 1px);
   padding: 20px;
 }
 
 .hof-glass {
-  background: linear-gradient(135deg, rgba(255, 200, 92, 0.7), rgba(255, 111, 97, 0.25));
+  border-color: rgba(255, 207, 77, 0.55);
   box-shadow:
-    0 1px 1px rgba(255, 255, 255, 0.08) inset,
-    0 30px 60px -20px rgba(0, 0, 0, 0.6),
-    0 10px 24px -8px rgba(255, 200, 92, 0.35);
+    0 1px 1px rgba(255, 255, 255, 0.06) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.65),
+    0 0 38px -10px rgba(255, 207, 77, 0.55);
 }
 
 .hof-glass .glass-inner {
-  background: linear-gradient(160deg, rgba(255, 200, 92, 0.1), var(--color-surface-glass));
+  background: transparent;
 }
 
 /* --- Bottone olografico --- */
@@ -191,7 +213,7 @@ body::after {
   padding: 14px;
   font-size: 14.5px;
   font-weight: 700;
-  color: #1a0f2e;
+  color: #0a0614;
   background: linear-gradient(
     120deg,
     var(--color-coral-soft),
@@ -203,8 +225,8 @@ body::after {
   animation: btn-shift 6s ease infinite;
   cursor: pointer;
   box-shadow:
-    0 12px 24px -8px rgba(255, 111, 97, 0.5),
-    0 4px 10px -2px rgba(139, 92, 246, 0.4);
+    0 12px 24px -8px rgba(255, 54, 224, 0.5),
+    0 4px 14px -2px rgba(38, 230, 255, 0.45);
   overflow: hidden;
 }
 
@@ -259,7 +281,7 @@ body::after {
   stroke: url(#ringGradient);
   stroke-linecap: round;
   transition: stroke-dashoffset 0.6s ease;
-  filter: drop-shadow(0 0 6px rgba(155, 107, 255, 0.6));
+  filter: drop-shadow(0 0 6px rgba(43, 232, 176, 0.65));
 }
 
 .shots-ring .count {
@@ -299,11 +321,11 @@ body::after {
   border-radius: 10px;
   aspect-ratio: 4 / 3;
   background:
-    radial-gradient(circle at 20% 25%, rgba(155, 107, 255, 0.85), transparent 45%),
-    radial-gradient(circle at 82% 15%, rgba(255, 111, 97, 0.7), transparent 42%),
-    radial-gradient(circle at 75% 80%, rgba(47, 224, 184, 0.65), transparent 46%),
-    radial-gradient(circle at 15% 85%, rgba(91, 140, 255, 0.7), transparent 44%),
-    #14182a;
+    radial-gradient(circle at 20% 25%, rgba(38, 230, 255, 0.85), transparent 45%),
+    radial-gradient(circle at 82% 15%, rgba(255, 54, 224, 0.75), transparent 42%),
+    radial-gradient(circle at 75% 80%, rgba(43, 232, 176, 0.65), transparent 46%),
+    radial-gradient(circle at 15% 85%, rgba(168, 85, 247, 0.7), transparent 44%),
+    #0a0716;
   background-size: 180% 180%;
   animation: info-hero-drift 14s ease-in-out infinite alternate;
 }

@@ -11,48 +11,48 @@ type Palette = {
 
 const PALETTES: Palette[] = [
   {
-    // Tramonto viola (originale)
-    skyTop: "#5b2a86",
-    skyMid: "#a35b8f",
-    skyBottom: "#ff6f61",
-    sun: "#ffe6b8",
-    seaTop: "#2fe0b8",
-    seaBottom: "#1a6f7a",
-    mountainFar: "#3a2a5c",
-    mountainNear: "#241b3d",
-  },
-  {
-    // Alba dorata
-    skyTop: "#1e3a5c",
-    skyMid: "#e08a4c",
-    skyBottom: "#ffd27a",
+    // Neon viola/magenta
+    skyTop: "#1a0f2e",
+    skyMid: "#a855f7",
+    skyBottom: "#ff36e0",
     sun: "#fff2c9",
-    seaTop: "#3fc7d6",
-    seaBottom: "#155a68",
-    mountainFar: "#2b3a5c",
-    mountainNear: "#1a2440",
+    seaTop: "#2be8b0",
+    seaBottom: "#0c3327",
+    mountainFar: "#2a1a45",
+    mountainNear: "#14112c",
   },
   {
-    // Notte blu
-    skyTop: "#0b1030",
-    skyMid: "#1c2a5e",
-    skyBottom: "#3d4f8f",
+    // Neon oro/magenta
+    skyTop: "#14112c",
+    skyMid: "#ff36e0",
+    skyBottom: "#ffcf4d",
+    sun: "#fff2c9",
+    seaTop: "#26e6ff",
+    seaBottom: "#0b2a33",
+    mountainFar: "#3a2f1c",
+    mountainNear: "#14112c",
+  },
+  {
+    // Neon notte ciano
+    skyTop: "#07050f",
+    skyMid: "#0c0a1e",
+    skyBottom: "#a855f7",
     sun: "#dfe6ff",
-    seaTop: "#1f5c78",
-    seaBottom: "#0e2f42",
-    mountainFar: "#161c38",
-    mountainNear: "#0b0f22",
+    seaTop: "#26e6ff",
+    seaBottom: "#0b2a33",
+    mountainFar: "#14112c",
+    mountainNear: "#07050f",
   },
   {
-    // Corallo
-    skyTop: "#7a2e5e",
-    skyMid: "#d1567b",
+    // Neon corallo/teal
+    skyTop: "#14112c",
+    skyMid: "#ff36e0",
     skyBottom: "#ffb199",
     sun: "#fff0d6",
-    seaTop: "#2ec7c2",
-    seaBottom: "#0f6f6e",
-    mountainFar: "#4a2350",
-    mountainNear: "#2a1233",
+    seaTop: "#2be8b0",
+    seaBottom: "#0c3327",
+    mountainFar: "#2a1a45",
+    mountainNear: "#14112c",
   },
 ];
 
