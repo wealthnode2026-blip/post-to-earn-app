@@ -29,6 +29,11 @@ export default async function DepositPage() {
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
+  const { data: addresses } = await supabase
+    .from("deposit_address")
+    .select("network, address")
+    .order("network", { ascending: true });
+
   return (
     <>
       <UserNav active="deposit" />
@@ -41,11 +46,11 @@ export default async function DepositPage() {
         </div>
 
         <p className="mb-4 text-xs text-ink-soft">
-          Invia USDT sulla rete TRC-20 all&apos;indirizzo indicato nello Shop, poi incolla qui il
-          TXID della transazione. Un admin verificherà la transazione e accrediterà il saldo.
+          Scegli la rete e invia all&apos;indirizzo indicato, poi incolla qui il TXID della
+          transazione. Un admin verificherà la transazione e accrediterà il saldo.
         </p>
 
-        <DepositForm />
+        <DepositForm addresses={addresses ?? []} />
 
         {transactions && transactions.length > 0 && (
           <div className="mt-8 space-y-2">

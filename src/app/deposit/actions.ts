@@ -13,6 +13,7 @@ export async function submitDeposit(formData: FormData) {
 
   const txid = String(formData.get("txid") ?? "").trim();
   const amount = Number(formData.get("amount_usdt") ?? 0);
+  const network = String(formData.get("network") ?? "TRC20").trim();
 
   if (!txid) throw new Error("Il TXID è obbligatorio");
   if (!amount || amount <= 0) throw new Error("Inserisci un importo valido");
@@ -29,6 +30,7 @@ export async function submitDeposit(formData: FormData) {
     user_id: user.id,
     txid,
     amount_usdt: amount,
+    network,
     status: "pending",
   });
 

@@ -6,7 +6,7 @@ export default async function DepositsPage() {
 
   const { data: transactions } = await supabase
     .from("crypto_transactions")
-    .select("id, txid, amount_usdt, created_at, profiles!crypto_transactions_user_id_fkey(username)")
+    .select("id, txid, amount_usdt, network, created_at, profiles!crypto_transactions_user_id_fkey(username)")
     .eq("status", "pending")
     .order("created_at", { ascending: true });
 
@@ -16,6 +16,7 @@ export default async function DepositsPage() {
       id: t.id,
       txid: t.txid,
       amount_usdt: t.amount_usdt,
+      network: t.network,
       created_at: t.created_at,
       username: profile?.username ?? "utente",
     };
