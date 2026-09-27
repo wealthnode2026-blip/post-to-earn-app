@@ -28,10 +28,12 @@ export function WithdrawForm({ balance }: { balance: number }) {
           type="number"
           step="0.01"
           max={balance}
+          min={15}
           required
           className="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm"
         />
         <p className="mt-1 text-xs text-ink-soft">Saldo disponibile: {balance} USDT</p>
+        <p className="mt-1 text-xs text-ink-soft">Importo minimo prelevabile: 15 USDT</p>
       </div>
       <div>
         <label className="block text-xs text-ink-soft">Indirizzo wallet (rete TRC-20)</label>

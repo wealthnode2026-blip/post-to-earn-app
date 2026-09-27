@@ -15,6 +15,7 @@ export async function submitWithdrawal(formData: FormData) {
   const wallet = String(formData.get("wallet_address") ?? "").trim();
 
   if (!amount || amount <= 0) throw new Error("Inserisci un importo valido");
+  if (amount < 15) throw new Error("Importo minimo prelevabile: 15 USDT");
   if (!wallet) throw new Error("Inserisci l'indirizzo del wallet");
 
   const { error } = await supabase.rpc("request_withdrawal", {
