@@ -8,7 +8,6 @@ type UserProfile = {
   username: string | null;
   plan: string;
   multiplier: number;
-  credit_balance: number;
   money_balance: number;
   is_admin: boolean;
   is_banned: boolean;
@@ -38,10 +37,6 @@ export function UserRow({ user }: { user: UserProfile }) {
           <span className="capitalize text-ink">
             {user.plan} · {user.multiplier}x
           </span>
-        </div>
-        <div>
-          <span className="block text-xs text-ink-soft">Crediti</span>
-          <span className="font-mono text-ink">{user.credit_balance}</span>
         </div>
         <div>
           <span className="block text-xs text-ink-soft">Saldo (USDT)</span>

@@ -5,6 +5,8 @@ import { UploadForm } from "./upload-form";
 import { UserNav } from "../components/user-nav";
 import { PhotoCard } from "../components/photo-card";
 import { InstallAppButton } from "../components/install-app-button";
+import { InviteLinkCard } from "../components/invite-link-card";
+import { HowItWorks } from "../components/how-it-works";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "In attesa di moderazione",
@@ -35,9 +37,15 @@ export default async function FeedPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, plan, credit_balance")
+    .select("username, plan, credit_balance, bonus_balance")
     .eq("id", user.id)
     .single();
+
+  const { data: plans } = await supabase
+    .from("camera_plans")
+    .select("plan_type, name, price_usdt, roll_price_usdt, credits_per_photo")
+    .eq("active", true)
+    .order("price_usdt", { ascending: true });
 
   const todayStart = startOfTodayUTC().toISOString();
 
@@ -102,10 +110,26 @@ export default async function FeedPage() {
             </p>
             <p className="text-sm text-ink-soft capitalize">Piano {profile?.plan ?? "free"}</p>
           </div>
-          <div className="rounded-full border border-accent/20 bg-accent-soft px-4 py-1.5 text-sm font-medium text-accent-ink">
-            <span className="font-mono">{profile?.credit_balance ?? 0}</span> crediti
+          <div className="flex flex-col items-end gap-1.5">
+            <div className="rounded-full border border-accent/20 bg-accent-soft px-4 py-1.5 text-sm font-medium text-accent-ink">
+              <span className="font-mono">{profile?.credit_balance ?? 0}</span> crediti
+            </div>
+            {(profile?.bonus_balance ?? 0) > 0 && (
+              <div
+                className="flex items-center gap-1 rounded-full border border-gold/30 bg-gold-soft px-3 py-1 text-xs font-medium text-gold-ink"
+                title="Saldo di prova: diventa prelevabile solo dopo l'acquisto di un rullino"
+              >
+                <span>⚠️</span>
+                <span className="font-mono">{profile?.bonus_balance}</span>
+                <span>saldo prova</span>
+              </div>
+            )}
           </div>
         </div>
+
+        <InviteLinkCard username={profile?.username ?? ""} />
+
+        <HowItWorks plans={plans ?? []} />
 
         <div className="mb-6 flex justify-end">
           <InstallAppButton />

@@ -34,7 +34,7 @@ export async function approvePost(postId: string) {
 
   const { data: authorProfile } = await supabase
     .from("profiles")
-    .select("plan, credit_balance, bonus_balance")
+    .select("plan, bonus_balance")
     .eq("id", post.user_id)
     .single();
 
@@ -64,12 +64,10 @@ export async function approvePost(postId: string) {
       })
       .eq("id", post.user_id);
   } else {
-    await supabase
-      .from("profiles")
-      .update({
-        credit_balance: Number(authorProfile?.credit_balance ?? 0) + creditsAwarded,
-      })
-      .eq("id", post.user_id);
+    await supabase.rpc("award_credit", {
+      p_user_id: post.user_id,
+      p_amount: creditsAwarded,
+    });
   }
 
   revalidatePath("/admin/moderation");

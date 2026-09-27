@@ -19,7 +19,7 @@ export default async function WithdrawPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("credit_balance")
+    .select("money_balance")
     .eq("id", user.id)
     .single();
 
@@ -29,22 +29,22 @@ export default async function WithdrawPage() {
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
-  const balance = Number(profile?.credit_balance ?? 0);
+  const balance = Number(profile?.money_balance ?? 0);
 
   return (
     <>
       <UserNav active="withdraw" />
       <div className="mx-auto w-full max-w-sm px-6 py-16">
         <div className="mb-8 flex items-center justify-between">
-          <h1 className="font-display text-xl italic text-ink">Preleva crediti</h1>
+          <h1 className="font-display text-xl italic text-ink">Preleva USDT</h1>
           <div className="rounded-full bg-accent-soft px-4 py-1.5 text-sm font-medium text-accent-ink">
             {balance} USDT
           </div>
         </div>
 
         <p className="mb-4 text-xs text-ink-soft">
-          1 credito = 1 USDT. Inserisci l&apos;importo e l&apos;indirizzo del tuo wallet sulla rete
-          TRC-20. Un admin verificherà ed eseguirà manualmente il pagamento.
+          Inserisci l&apos;importo e l&apos;indirizzo del tuo wallet sulla rete TRC-20. Un admin
+          verificherà ed eseguirà manualmente il pagamento.
         </p>
 
         <WithdrawForm balance={balance} />
