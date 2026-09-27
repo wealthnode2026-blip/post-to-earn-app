@@ -37,7 +37,7 @@ export default async function FeedPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, plan, credit_balance, bonus_balance")
+    .select("username, plan, money_balance, bonus_balance")
     .eq("id", user.id)
     .single();
 
@@ -112,7 +112,7 @@ export default async function FeedPage() {
           </div>
           <div className="flex flex-col items-end gap-1.5">
             <div className="rounded-full border border-accent/20 bg-accent-soft px-4 py-1.5 text-sm font-medium text-accent-ink">
-              <span className="font-mono">{profile?.credit_balance ?? 0}</span> crediti
+              <span className="font-mono">{profile?.money_balance ?? 0}</span> USDT
             </div>
             {(profile?.bonus_balance ?? 0) > 0 && (
               <div
