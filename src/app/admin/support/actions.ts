@@ -26,6 +26,12 @@ export async function sendAdminMessage(ticketId: string, message: string) {
 
   if (!message.trim()) throw new Error("Il messaggio non può essere vuoto");
 
+  const { data: ticket } = await supabase
+    .from("support_tickets")
+    .select("user_id, subject")
+    .eq("id", ticketId)
+    .single();
+
   await supabase.from("ticket_messages").insert({
     ticket_id: ticketId,
     sender: "admin",
@@ -34,6 +40,14 @@ export async function sendAdminMessage(ticketId: string, message: string) {
   });
 
   await supabase.from("support_tickets").update({ status: "answered" }).eq("id", ticketId);
+
+  if (ticket) {
+    await supabase.rpc("create_notification", {
+      p_user_id: ticket.user_id,
+      p_message: `Nuova risposta al ticket "${ticket.subject}"`,
+      p_link: `/support/${ticketId}`,
+    });
+  }
 
   revalidatePath(`/admin/support/${ticketId}`);
   revalidatePath("/admin/support");
@@ -49,27 +63,17 @@ export async function closeTicket(ticketId: string) {
 export async function adminCreateTicket(formData: FormData) {
   const { supabase, adminId } = await requireAdmin();
 
-  const username = String(formData.get("username") ?? "").trim();
+  const userId = String(formData.get("user_id") ?? "").trim();
   const subject = String(formData.get("subject") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
 
-  if (!username || !subject || !message) {
-    throw new Error("Compila utente, oggetto e messaggio");
-  }
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("id")
-    .ilike("username", username)
-    .single();
-
-  if (profileError || !profile) {
-    throw new Error("Utente non trovato");
+  if (!userId || !subject || !message) {
+    throw new Error("Seleziona un utente e compila oggetto e messaggio");
   }
 
   const { error } = await supabase.rpc("admin_create_ticket", {
     p_admin_id: adminId,
-    p_user_id: profile.id,
+    p_user_id: userId,
     p_subject: subject,
     p_message: message,
   });

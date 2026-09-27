@@ -14,10 +14,13 @@ const STATUS_ORDER: Record<string, number> = { open: 0, answered: 1, closed: 2 }
 export default async function AdminSupportPage() {
   const supabase = await createClient();
 
-  const { data: tickets } = await supabase
-    .from("support_tickets")
-    .select("id, subject, status, created_at, profiles!support_tickets_user_id_fkey(username)")
-    .order("created_at", { ascending: false });
+  const [{ data: tickets }, { data: users }] = await Promise.all([
+    supabase
+      .from("support_tickets")
+      .select("id, subject, status, created_at, profiles!support_tickets_user_id_fkey(username)")
+      .order("created_at", { ascending: false }),
+    supabase.from("profiles").select("id, username").order("username"),
+  ]);
 
   const items = (tickets ?? [])
     .map((t) => {
@@ -37,7 +40,7 @@ export default async function AdminSupportPage() {
       <p className="mt-1 text-sm text-ink-soft">{items.length} ticket totali.</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <AdminNewTicketForm />
+        <AdminNewTicketForm users={users ?? []} />
         <AdminBroadcastForm />
       </div>
 

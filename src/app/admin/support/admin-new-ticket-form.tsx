@@ -3,7 +3,9 @@
 import { useTransition } from "react";
 import { adminCreateTicket } from "./actions";
 
-export function AdminNewTicketForm() {
+type UserOption = { id: string; username: string };
+
+export function AdminNewTicketForm({ users }: { users: UserOption[] }) {
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -13,12 +15,22 @@ export function AdminNewTicketForm() {
     >
       <p className="text-sm font-medium text-ink">Nuovo ticket verso un utente</p>
       <div>
-        <label className="block text-xs text-ink-soft">Username destinatario</label>
-        <input
-          name="username"
+        <label className="block text-xs text-ink-soft">Utente destinatario</label>
+        <select
+          name="user_id"
           required
-          className="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm"
-        />
+          defaultValue=""
+          className="mt-1 w-full rounded-md border border-line bg-surface px-3 py-2 text-sm"
+        >
+          <option value="" disabled>
+            Seleziona un utente...
+          </option>
+          {users.map((u) => (
+            <option key={u.id} value={u.id}>
+              {u.username}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label className="block text-xs text-ink-soft">Oggetto</label>

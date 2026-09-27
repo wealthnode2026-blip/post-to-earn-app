@@ -126,6 +126,7 @@ export async function UserNav({
     created_at: string;
   }[] = [];
   let isAdmin = false;
+  let adminPendingCount = 0;
 
   if (user) {
     const [{ data: notifData }, { data: profile }] = await Promise.all([
@@ -139,6 +140,29 @@ export async function UserNav({
     ]);
     notifications = notifData ?? [];
     isAdmin = profile?.is_admin ?? false;
+
+    if (isAdmin) {
+      const [pendingPosts, openTickets, pendingDeposits, pendingWithdrawals] = await Promise.all([
+        supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "pending"),
+        supabase
+          .from("support_tickets")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "open"),
+        supabase
+          .from("crypto_transactions")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "pending"),
+        supabase
+          .from("withdrawal_requests")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "pending"),
+      ]);
+      adminPendingCount =
+        (pendingPosts.count ?? 0) +
+        (openTickets.count ?? 0) +
+        (pendingDeposits.count ?? 0) +
+        (pendingWithdrawals.count ?? 0);
+    }
   }
 
   const tabs = isAdmin
@@ -197,19 +221,26 @@ export async function UserNav({
                   isActive ? "text-ink" : "text-ink-soft hover:text-ink"
                 }`}
               >
-                <tab.Icon
-                  className="h-5 w-5"
-                  style={
-                    isActive
-                      ? {
-                          color: isGold ? "var(--color-gold)" : "var(--color-violet)",
-                          filter: isGold
-                            ? "drop-shadow(0 0 6px rgba(255,207,77,0.9))"
-                            : "drop-shadow(0 0 6px rgba(168,85,247,0.9))",
-                        }
-                      : undefined
-                  }
-                />
+                <span className="relative">
+                  <tab.Icon
+                    className="h-5 w-5"
+                    style={
+                      isActive
+                        ? {
+                            color: isGold ? "var(--color-gold)" : "var(--color-violet)",
+                            filter: isGold
+                              ? "drop-shadow(0 0 6px rgba(255,207,77,0.9))"
+                              : "drop-shadow(0 0 6px rgba(168,85,247,0.9))",
+                          }
+                        : undefined
+                    }
+                  />
+                  {isGold && adminPendingCount > 0 && (
+                    <span className="absolute -right-2 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white">
+                      {adminPendingCount > 99 ? "99+" : adminPendingCount}
+                    </span>
+                  )}
+                </span>
                 <span className="max-w-full truncate px-0.5 text-[9px] font-medium leading-none">
                   {tab.label}
                 </span>
