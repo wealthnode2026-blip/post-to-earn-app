@@ -48,7 +48,7 @@ export function NotificationBell({ items }: { items: NotificationItem[] }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-10 mt-2 w-72 rounded-xl border border-black/5 bg-white p-2 shadow-lg">
+        <div className="absolute right-0 z-10 mt-2 w-72 rounded-xl border border-line bg-surface p-2 shadow-lg">
           {notifications.length === 0 ? (
             <p className="p-3 text-xs text-ink-soft">Nessuna notifica.</p>
           ) : (
@@ -57,7 +57,7 @@ export function NotificationBell({ items }: { items: NotificationItem[] }) {
                 const content = (
                   <div
                     className={`rounded-lg p-3 text-xs ${
-                      n.is_read ? "text-ink-soft" : "bg-accent/5 font-medium text-ink"
+                      n.is_read ? "text-ink-soft" : "bg-accent/10 font-medium text-ink"
                     }`}
                   >
                     {n.message}
