@@ -19,6 +19,7 @@ export async function signup(
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const username = String(formData.get("username") ?? "").trim();
+  const referredByUsername = String(formData.get("ref") ?? "").trim() || null;
 
   if (!email || !password || !username) {
     return { error: "Compila tutti i campi per continuare." };
@@ -56,7 +57,7 @@ export async function signup(
     email,
     password,
     options: {
-      data: { username, registration_ip },
+      data: { username, registration_ip, referred_by_username: referredByUsername },
     },
   });
 
