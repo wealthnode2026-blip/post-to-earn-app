@@ -42,7 +42,7 @@ export default async function DepositPage() {
 
         <p className="mb-4 text-xs text-ink-soft">
           Invia USDT sulla rete TRC-20 all&apos;indirizzo indicato nello Shop, poi incolla qui il
-          TXID della transazione. Un admin la verificherà manualmente su Tronscan.
+          TXID della transazione. Un admin verificherà la transazione e accrediterà il saldo.
         </p>
 
         <DepositForm />
