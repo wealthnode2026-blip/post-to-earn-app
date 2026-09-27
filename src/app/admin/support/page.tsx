@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
+import { AdminNewTicketForm } from "./admin-new-ticket-form";
+import { AdminBroadcastForm } from "./admin-broadcast-form";
 
 const STATUS_LABEL: Record<string, string> = {
   open: "Aperto",
@@ -33,6 +35,11 @@ export default async function AdminSupportPage() {
     <div>
       <h1 className="font-display text-2xl italic text-ink">Ticket di supporto</h1>
       <p className="mt-1 text-sm text-ink-soft">{items.length} ticket totali.</p>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <AdminNewTicketForm />
+        <AdminBroadcastForm />
+      </div>
 
       <div className="mt-8 space-y-2">
         {items.map((t) => (
