@@ -1,1 +1,0 @@
-globalThis.__RSC_MANIFEST=(globalThis.__RSC_MANIFEST||{});globalThis.__RSC_MANIFEST["/api/track/route"]={"moduleLoading":{"prefix":"/_next/"},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"clientModules":{},"entryCSSFiles":{"/home/mariagraziarapisarda97/post-to-earn-app/src/app/api/track/route":[]},"rscModuleMapping":{},"edgeRscModuleMapping":{}};
