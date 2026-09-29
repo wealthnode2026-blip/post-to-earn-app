@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { startOfTodayUTC } from "@/utils/date";
+import { startOfTodayRome, todayRomeISO } from "@/utils/date";
 import { UploadForm } from "./upload-form";
 import { UserNav } from "../components/user-nav";
 import { PhotoCard } from "../components/photo-card";
 import { InstallAppButton } from "../components/install-app-button";
 import { InviteLinkCard } from "../components/invite-link-card";
 import { HowItWorks } from "../components/how-it-works";
+import { TopicCard } from "../components/topic-card";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "In attesa di moderazione",
@@ -17,7 +18,7 @@ const STATUS_LABEL: Record<string, string> = {
 const STATUS_HINT: Record<string, string> = {
   pending: "Un admin la sta revisionando. Ti aggiorneremo qui appena decisa.",
   approved: "Hai guadagnato i tuoi micro-crediti per oggi. Torna domani per il prossimo scatto.",
-  rejected: "Questo scatto non è stato accettato. Puoi riprovare domani.",
+  rejected: "Questo scatto non è stato accettato.",
 };
 
 const STATUS_BADGE: Record<string, string> = {
@@ -47,15 +48,23 @@ export default async function FeedPage() {
     .eq("active", true)
     .order("price_usdt", { ascending: true });
 
-  const todayStart = startOfTodayUTC().toISOString();
+  const todayStart = startOfTodayRome().toISOString();
 
-  const { data: todaysPost } = await supabase
+  // Le foto rifiutate non bloccano l'upload: conta solo quella in attesa o approvata
+  const { data: todaysPosts } = await supabase
     .from("posts")
     .select("id, status, image_path")
     .eq("user_id", user.id)
     .gte("created_at", todayStart)
-    .order("created_at", { ascending: false })
-    .limit(1)
+    .order("created_at", { ascending: false });
+
+  const todaysPost = (todaysPosts ?? []).find((p) => p.status !== "rejected") ?? null;
+  const hasRejectedToday = (todaysPosts ?? []).some((p) => p.status === "rejected");
+
+  const { data: todaysTopic } = await supabase
+    .from("daily_topics")
+    .select("title, description")
+    .eq("topic_date", todayRomeISO())
     .maybeSingle();
 
   let imageUrl: string | null = null;
@@ -135,6 +144,8 @@ export default async function FeedPage() {
           <InstallAppButton />
         </div>
 
+        <TopicCard title={todaysTopic?.title ?? null} description={todaysTopic?.description} />
+
         {todaysPost ? (
           <PhotoCard
             imageUrl={imageUrl}
@@ -149,7 +160,14 @@ export default async function FeedPage() {
             footer={<p className="text-sm text-ink-soft">{STATUS_HINT[todaysPost.status]}</p>}
           />
         ) : (
-          <UploadForm />
+          <>
+            {hasRejectedToday && (
+              <p className="mb-4 rounded-lg border border-red-800/50 bg-red-950 px-4 py-3 text-sm text-red-300">
+                La tua foto precedente non è stata approvata. Puoi caricarne un&apos;altra sul tema di oggi.
+              </p>
+            )}
+            <UploadForm topic={todaysTopic?.title ?? null} />
+          </>
         )}
       </div>
 

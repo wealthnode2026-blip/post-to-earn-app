@@ -6,6 +6,7 @@ type NavItem = { href: string; label: string; countKey?: "posts" | "tickets" | "
 
 const NAV: NavItem[] = [
   { href: "/admin/moderation", label: "Moderazione", countKey: "posts" },
+  { href: "/admin/topics", label: "Tema del giorno" },
   { href: "/admin/users", label: "Utenti" },
   { href: "/admin/shop", label: "Shop" },
   { href: "/admin/duels", label: "Duelli" },

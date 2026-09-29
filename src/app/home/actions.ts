@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { startOfTodayUTC, mondayOfWeekUTC } from "@/utils/date";
+import { startOfTodayRome, mondayOfWeekRome } from "@/utils/date";
 
 export type UploadState = { error: string | null };
 
@@ -32,12 +32,13 @@ export async function uploadDailyPhoto(
     return { error: "Il tuo account è sospeso. Contatta il supporto." };
   }
 
-  // Un solo post al giorno
+  // Un solo post al giorno: le foto rifiutate non contano, cosi' l'utente puo' riprovare
   const { count } = await supabase
     .from("posts")
     .select("id", { count: "exact", head: true })
     .eq("user_id", user.id)
-    .gte("created_at", startOfTodayUTC().toISOString());
+    .neq("status", "rejected")
+    .gte("created_at", startOfTodayRome().toISOString());
 
   if (count && count > 0) {
     return { error: "Hai già pubblicato la tua foto di oggi. Torna domani." };
@@ -85,7 +86,7 @@ export async function uploadDailyPhoto(
   const { error: insertError } = await supabase.from("posts").insert({
     user_id: user.id,
     image_path: path,
-    week_start: mondayOfWeekUTC(),
+    week_start: mondayOfWeekRome(),
     status: "pending",
     is_trial: isTrial,
   });

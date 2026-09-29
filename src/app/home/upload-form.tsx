@@ -5,7 +5,7 @@ import { uploadDailyPhoto, type UploadState } from "./actions";
 
 const initialState: UploadState = { error: null };
 
-export function UploadForm() {
+export function UploadForm({ topic }: { topic?: string | null }) {
   const [state, formAction, pending] = useActionState(uploadDailyPhoto, initialState);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -20,7 +20,9 @@ export function UploadForm() {
           <img src={preview} alt="Anteprima" className="h-full w-full object-cover" />
         ) : (
           <div className="px-8 text-center">
-            <p className="font-display text-lg italic text-ink">Lo scatto di oggi</p>
+            <p className="font-display text-lg italic text-ink">
+              {topic ? `Il tuo scatto: ${topic}` : "Lo scatto di oggi"}
+            </p>
             <p className="mt-1 text-sm text-ink-soft">Tocca per scegliere una foto</p>
           </div>
         )}
