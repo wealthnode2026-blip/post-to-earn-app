@@ -100,15 +100,12 @@ export async function rejectPost(postId: string) {
     })
     .eq("id", postId);
 
-  // Restituisce lo scatto del rullino, cosi' l'utente puo' riprovare senza perderlo
-  await supabase.rpc("refund_upload_attempt", { p_post_id: postId });
-
   // La foto scartata viene rimossa dallo storage (coerente con l'obiettivo costo zero)
   await supabase.storage.from("daily-photos").remove([post.image_path]);
 
   await supabase.rpc("create_notification", {
     p_user_id: post.user_id,
-    p_message: "La tua foto è stata rifiutata dalla moderazione. Puoi caricarne un'altra oggi.",
+    p_message: "La tua foto è stata rifiutata dalla moderazione. Puoi caricarne un'altra oggi, ma userà un altro scatto del rullino.",
     p_link: "/home",
   });
 

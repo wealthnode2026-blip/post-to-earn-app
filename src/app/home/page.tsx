@@ -163,7 +163,7 @@ export default async function FeedPage() {
           <>
             {hasRejectedToday && (
               <p className="mb-4 rounded-lg border border-red-800/50 bg-red-950 px-4 py-3 text-sm text-red-300">
-                La tua foto precedente non è stata approvata. Puoi caricarne un&apos;altra sul tema di oggi.
+                La tua foto precedente non è stata approvata. Puoi caricarne un&apos;altra sul tema di oggi, ma userà un altro scatto del rullino.
               </p>
             )}
             <UploadForm topic={todaysTopic?.title ?? null} />
