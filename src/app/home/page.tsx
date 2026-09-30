@@ -53,13 +53,13 @@ export default async function FeedPage() {
   // Le foto rifiutate non bloccano l'upload: conta solo quella in attesa o approvata
   const { data: todaysPosts } = await supabase
     .from("posts")
-    .select("id, status, image_path")
+    .select("id, status, image_path, rejection_reason")
     .eq("user_id", user.id)
     .gte("created_at", todayStart)
     .order("created_at", { ascending: false });
 
   const todaysPost = (todaysPosts ?? []).find((p) => p.status !== "rejected") ?? null;
-  const hasRejectedToday = (todaysPosts ?? []).some((p) => p.status === "rejected");
+  const lastRejectedToday = (todaysPosts ?? []).find((p) => p.status === "rejected") ?? null;
 
   const { data: todaysTopic } = await supabase
     .from("daily_topics")
@@ -161,9 +161,17 @@ export default async function FeedPage() {
           />
         ) : (
           <>
-            {hasRejectedToday && (
+            {lastRejectedToday && (
               <p className="mb-4 rounded-lg border border-red-800/50 bg-red-950 px-4 py-3 text-sm text-red-300">
-                La tua foto precedente non è stata approvata. Puoi caricarne un&apos;altra sul tema di oggi, ma userà un altro scatto del rullino.
+                La tua foto precedente non è stata approvata.
+                {lastRejectedToday.rejection_reason && (
+                  <>
+                    {" "}
+                    <strong className="font-semibold">Motivo:</strong> {lastRejectedToday.rejection_reason}
+                    {/[.!?]$/.test(lastRejectedToday.rejection_reason) ? "" : "."}
+                  </>
+                )}{" "}
+                Puoi caricarne un&apos;altra sul tema di oggi, ma userà un altro scatto del rullino.
               </p>
             )}
             <UploadForm topic={todaysTopic?.title ?? null} />

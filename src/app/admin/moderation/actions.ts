@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
+import { REJECTION_REASONS, MAX_REJECTION_NOTE } from "@/lib/rejection-reasons";
 
 async function requireAdmin() {
   const supabase = await createClient();
@@ -80,8 +81,23 @@ export async function approvePost(postId: string) {
   revalidatePath("/home");
 }
 
-export async function rejectPost(postId: string) {
+export async function rejectPost(postId: string, reasonKey: string, note: string = "") {
   const { supabase, adminId } = await requireAdmin();
+
+  const reason = REJECTION_REASONS.find((r) => r.key === reasonKey);
+  if (!reason) throw new Error("Scegli il motivo del rifiuto");
+
+  const cleanNote = note.trim();
+  if (cleanNote.length > MAX_REJECTION_NOTE) {
+    throw new Error(`La nota può avere al massimo ${MAX_REJECTION_NOTE} caratteri`);
+  }
+  if (reason.key === "other" && !cleanNote) {
+    throw new Error("Scrivi il motivo del rifiuto");
+  }
+
+  // Testo mostrato all'utente: motivo scelto + eventuale nota dell'admin
+  const reasonText =
+    reason.key === "other" ? cleanNote : cleanNote ? `${reason.label}. ${cleanNote}` : reason.label;
 
   const { data: post } = await supabase
     .from("posts")
@@ -95,6 +111,7 @@ export async function rejectPost(postId: string) {
     .from("posts")
     .update({
       status: "rejected",
+      rejection_reason: reasonText,
       reviewed_at: new Date().toISOString(),
       reviewed_by: adminId,
     })
@@ -105,7 +122,7 @@ export async function rejectPost(postId: string) {
 
   await supabase.rpc("create_notification", {
     p_user_id: post.user_id,
-    p_message: "La tua foto è stata rifiutata dalla moderazione. Puoi caricarne un'altra oggi, ma userà un altro scatto del rullino.",
+    p_message: `La tua foto è stata rifiutata. Motivo: ${reasonText}. Puoi caricarne un'altra oggi, ma userà un altro scatto del rullino.`,
     p_link: "/home",
   });
 
