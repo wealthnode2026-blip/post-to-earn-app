@@ -7,7 +7,7 @@ export default async function WithdrawalsPage() {
   const { data: requests } = await supabase
     .from("withdrawal_requests")
     .select(
-      "id, amount_usdt, wallet_address, created_at, profiles!withdrawal_requests_user_id_fkey(username)"
+      "id, amount_usdt, wallet_address, network, created_at, profiles!withdrawal_requests_user_id_fkey(username)"
     )
     .eq("status", "pending")
     .order("created_at", { ascending: true });
@@ -18,6 +18,7 @@ export default async function WithdrawalsPage() {
       id: r.id,
       amount_usdt: r.amount_usdt,
       wallet_address: r.wallet_address,
+      network: r.network,
       created_at: r.created_at,
       username: profile?.username ?? "utente",
     };

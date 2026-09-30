@@ -2,17 +2,21 @@
 
 import { useTransition } from "react";
 import { approveWithdrawal, rejectWithdrawal } from "./actions";
+import { networkLabel as getNetworkLabel, addressExplorerUrl } from "@/lib/networks";
 
 type Req = {
   id: string;
   amount_usdt: number;
   wallet_address: string;
+  network: string;
   created_at: string;
   username: string;
 };
 
 export function WithdrawalRow({ req }: { req: Req }) {
   const [isPending, startTransition] = useTransition();
+  const networkLabel = getNetworkLabel(req.network);
+  const isBtc = req.network === "BTC";
 
   function handleCopy() {
     navigator.clipboard.writeText(req.wallet_address);
@@ -25,14 +29,31 @@ export function WithdrawalRow({ req }: { req: Req }) {
         <p className="shrink-0 font-mono text-ink">{req.amount_usdt} USDT</p>
       </div>
 
+      <p className="mt-1 text-xs font-medium text-ink">
+        Rete: {networkLabel}
+        {isBtc && (
+          <span className="ml-2 font-normal text-gold-ink">
+            da pagare in BTC al controvalore di {req.amount_usdt} USDT
+          </span>
+        )}
+      </p>
+
       <button
         type="button"
         onClick={handleCopy}
-        className="mt-2 block truncate font-mono text-xs text-accent underline"
+        className="mt-2 block max-w-full break-all text-left font-mono text-xs text-accent underline"
         title="Clicca per copiare"
       >
         {req.wallet_address}
       </button>
+      <a
+        href={addressExplorerUrl(req.network, req.wallet_address)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-1 inline-block text-xs text-ink-soft underline"
+      >
+        Vedi indirizzo sull&apos;explorer
+      </a>
 
       <div className="mt-3 flex justify-end gap-2">
         <button
@@ -41,7 +62,7 @@ export function WithdrawalRow({ req }: { req: Req }) {
             startTransition(async () => {
               if (
                 !confirm(
-                  "Conferma solo dopo aver inviato manualmente gli USDT a questo indirizzo. Procedere?"
+                  `Conferma solo dopo aver inviato manualmente ${isBtc ? "i BTC" : "gli USDT"} a questo indirizzo sulla rete ${networkLabel}. Procedere?`
                 )
               )
                 return;

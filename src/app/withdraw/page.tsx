@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { UserNav } from "../components/user-nav";
 import { WithdrawForm } from "./withdraw-form";
+import { networkLabel } from "@/lib/networks";
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "In verifica",
@@ -25,7 +26,7 @@ export default async function WithdrawPage() {
 
   const { data: requests } = await supabase
     .from("withdrawal_requests")
-    .select("id, amount_usdt, wallet_address, status, created_at")
+    .select("id, amount_usdt, wallet_address, network, status, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
@@ -43,7 +44,7 @@ export default async function WithdrawPage() {
         </div>
 
         <p className="mb-4 text-xs text-ink-soft">
-          Inserisci l&apos;importo e l&apos;indirizzo del tuo wallet sulla rete TRC-20. Un admin
+          Scegli la rete, inserisci l&apos;importo e l&apos;indirizzo del tuo wallet. Un admin
           verificherà ed eseguirà manualmente il pagamento.
         </p>
 
@@ -57,8 +58,11 @@ export default async function WithdrawPage() {
                 key={r.id}
                 className="flex items-center justify-between rounded-xl border border-line bg-surface px-4 py-3 text-sm"
               >
-                <span className="font-mono text-xs text-ink-soft">
-                  {r.wallet_address.slice(0, 10)}…
+                <span className="text-xs text-ink-soft">
+                  <span className="font-mono">{r.wallet_address.slice(0, 8)}…</span>
+                  <span className="ml-1">
+                    {networkLabel(String(r.network)).split(" ")[0]}
+                  </span>
                 </span>
                 <span className="text-ink">{r.amount_usdt} USDT</span>
                 <span className="text-xs text-ink-soft">{STATUS_LABEL[r.status]}</span>
