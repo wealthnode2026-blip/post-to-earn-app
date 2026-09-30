@@ -122,7 +122,7 @@ export async function rejectPost(postId: string, reasonKey: string, note: string
 
   await supabase.rpc("create_notification", {
     p_user_id: post.user_id,
-    p_message: `La tua foto è stata rifiutata. Motivo: ${reasonText}. Puoi caricarne un'altra oggi, ma userà un altro scatto del rullino.`,
+    p_message: `La tua foto è stata rifiutata. Motivo: ${reasonText}. Puoi caricarne un'altra oggi.`,
     p_link: "/home",
   });
 

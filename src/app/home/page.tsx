@@ -171,7 +171,7 @@ export default async function FeedPage() {
                     {/[.!?]$/.test(lastRejectedToday.rejection_reason) ? "" : "."}
                   </>
                 )}{" "}
-                Puoi caricarne un&apos;altra sul tema di oggi, ma userà un altro scatto del rullino.
+                Puoi caricarne un&apos;altra sul tema di oggi.
               </p>
             )}
             <UploadForm topic={todaysTopic?.title ?? null} />
